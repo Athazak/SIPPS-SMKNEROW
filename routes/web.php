@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ImportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,15 @@ Route::middleware('auth')->group(function () {
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/import', [ImportController::class, 'index'])->name('import.index');
+    Route::post('/import/siswa/preview', [ImportController::class, 'previewSiswa'])->name('import.preview-siswa');
+    Route::post('/import/siswa/store', [ImportController::class, 'storeSiswa'])->name('import.siswa-store');
+
+    Route::post('/import/generate-ortu', [ImportController::class, 'generateOrtu'])->name('import.generate-ortu');
+
+    Route::post('/import/guru/preview', [ImportController::class, 'previewGuru'])->name('import.preview-guru');
+    Route::post('/import/guru/store', [ImportController::class, 'storeGuru'])->name('import.guru-store');
     // CRUD master data (kelas, jenis pelanggaran, bentuk, penghargaan, penanganan)
 });
 

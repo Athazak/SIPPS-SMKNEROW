@@ -8,7 +8,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
                 <!-- Jumlah Siswa -->
                 <div class="p-6 bg-blue-500 dark:bg-blue-700 text-white shadow rounded-xl hover:scale-105 transition">
                     <div class="flex items-center justify-between">
@@ -43,7 +42,8 @@
                 </div>
 
                 <!-- Penghargaan -->
-                <div class="p-6 bg-yellow-500 dark:bg-yellow-600 text-white shadow rounded-xl hover:scale-105 transition">
+                <div
+                    class="p-6 bg-yellow-500 dark:bg-yellow-600 text-white shadow rounded-xl hover:scale-105 transition">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm opacity-80">Penghargaan</p>
@@ -52,7 +52,6 @@
                         <x-heroicon-o-star class="w-10 h-10 opacity-70" />
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

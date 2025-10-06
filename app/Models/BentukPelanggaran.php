@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class BentukPelanggaran extends Model
 {
     use HasFactory;
-    protected $fillable = ['jenis_id', 'bentuk', 'skor', 'sanksi'];
+    protected $fillable = ['jenis_id', 'bentuk', 'skor'];
 
     public function jenis()
     {

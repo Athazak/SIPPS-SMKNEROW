@@ -51,7 +51,8 @@
                                         :active="request()->routeIs('admin.bentuk-pelanggaran.*')">
                                         {{ __('Bentuk Pelanggaran') }}
                                     </x-dropdown-link>
-                                    <x-dropdown-link href="#">
+                                    <x-dropdown-link :href="route('admin.penghargaan.index')"
+                                        :active="request()->routeIs('admin.penghargaan.*')">
                                         {{ __('Penghargaan') }}
                                     </x-dropdown-link>
                                     <x-dropdown-link href="#">
@@ -72,14 +73,14 @@
 
                     @if(Auth::user()->role === 'siswa')
                         <!-- <x-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.*')">
-                                                            {{ __('Prestasi') }}
-                                                        </x-nav-link> -->
+                                                                        {{ __('Prestasi') }}
+                                                                    </x-nav-link> -->
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
                         <!-- <x-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                                                            {{ __('Laporan Anak') }}
-                                                        </x-nav-link> -->
+                                                                        {{ __('Laporan Anak') }}
+                                                                    </x-nav-link> -->
                     @endif
                 </div>
             </div>
@@ -151,13 +152,16 @@
                 <x-responsive-nav-link :href="route('admin.kelas.index')" :active="request()->routeIs('admin.kelas.*')">
                     {{ __('Kelas') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.jenis-pelanggaran.index')" :active="request()->routeIs('admin.jenis-pelanggaran.*')">
+                <x-responsive-nav-link :href="route('admin.jenis-pelanggaran.index')"
+                    :active="request()->routeIs('admin.jenis-pelanggaran.*')">
                     {{ __('Jenis Pelanggaran') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.bentuk-pelanggaran.index')" :active="request()->routeIs('admin.bentuk-pelanggaran.*')">
+                <x-responsive-nav-link :href="route('admin.bentuk-pelanggaran.index')"
+                    :active="request()->routeIs('admin.bentuk-pelanggaran.*')">
                     {{ __('Bentuk Pelanggaran') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link href="#">
+                <x-responsive-nav-link :href="route('admin.penghargaan.index')"
+                    :active="request()->routeIs('admin.penghargaan.*')">
                     {{ __('Penghargaan') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link href="#">

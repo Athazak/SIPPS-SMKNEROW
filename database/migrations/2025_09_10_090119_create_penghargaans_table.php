@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('penghargaans', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori'); // akademik, organisasi, ketertiban
             $table->string('bentuk');
-            $table->text('kriteria')->nullable();
-            $table->integer('skor')->default(0);
+            $table->text('kriteria');
+            $table->unsignedInteger('skor');
             $table->timestamps();
         });
     }

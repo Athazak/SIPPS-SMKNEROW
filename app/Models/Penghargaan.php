@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Penghargaan extends Model
 {
     use HasFactory;
-    protected $fillable = ['kategori', 'bentuk', 'kriteria', 'skor'];
+    protected $fillable = ['bentuk', 'kriteria', 'skor'];
 }

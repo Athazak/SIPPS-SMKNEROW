@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('penanganan_pelanggarans', function (Blueprint $table) {
             $table->id();
-            $table->enum('kategori', ['ringan', 'sedang', 'berat']);
-            $table->integer('skor_min')->default(0);
-            $table->integer('skor_max')->default(0);
-            $table->text('tindak_lanjut')->nullable();
-            $table->string('level_penanganan')->nullable();
+            $table->string('kategori');
+            $table->unsignedInteger('skor_min');
+            $table->unsignedInteger('skor_maks')->nullable();
+            $table->text('tindak_lanjut');
             $table->timestamps();
         });
     }

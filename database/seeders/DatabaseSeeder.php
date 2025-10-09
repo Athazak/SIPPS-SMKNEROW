@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             JenisPelanggaranSeeder::class,
             BentukPelanggaranSeeder::class,
             PenghargaanSeeder::class,
+            PenangananPelanggaranSeeder::class,
         ]);
     }
 

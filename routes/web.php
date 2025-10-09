@@ -5,6 +5,7 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\JenisPelanggaranController;
 use App\Http\Controllers\Admin\BentukPelanggaranController;
+use App\Http\Controllers\Admin\PenangananPelanggaranController;
 use App\Http\Controllers\Admin\PenghargaanController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,11 +58,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Jenis dan Bentuk Pelanggaran
     Route::resource('jenis-pelanggaran', JenisPelanggaranController::class);
     Route::resource('bentuk-pelanggaran', BentukPelanggaranController::class);
+    Route::resource('penanganan', PenangananPelanggaranController::class);
 
     // Penghargaan
     Route::resource('penghargaan', PenghargaanController::class);
-
-    // CRUD master data (penanganan)
 });
 
 /*

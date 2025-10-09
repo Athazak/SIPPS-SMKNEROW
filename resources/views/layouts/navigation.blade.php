@@ -55,7 +55,8 @@
                                         :active="request()->routeIs('admin.penghargaan.*')">
                                         {{ __('Penghargaan') }}
                                     </x-dropdown-link>
-                                    <x-dropdown-link href="#">
+                                    <x-dropdown-link :href="route('admin.penanganan.index')"
+                                        :active="request()->routeIs('admin.penanganan.*')">
                                         {{ __('Penanganan Pelanggaran') }}
                                     </x-dropdown-link>
                                 </x-slot>
@@ -73,14 +74,14 @@
 
                     @if(Auth::user()->role === 'siswa')
                         <!-- <x-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.*')">
-                                                                        {{ __('Prestasi') }}
-                                                                    </x-nav-link> -->
+                                                                                {{ __('Prestasi') }}
+                                                                            </x-nav-link> -->
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
                         <!-- <x-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                                                                        {{ __('Laporan Anak') }}
-                                                                    </x-nav-link> -->
+                                                                                {{ __('Laporan Anak') }}
+                                                                            </x-nav-link> -->
                     @endif
                 </div>
             </div>
@@ -164,7 +165,8 @@
                     :active="request()->routeIs('admin.penghargaan.*')">
                     {{ __('Penghargaan') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link href="#">
+                <x-responsive-nav-link :href="route('admin.penanganan.index')"
+                    :active="request()->routeIs('admin.penanganan.*')">
                     {{ __('Penanganan Pelanggaran') }}
                 </x-responsive-nav-link>
             @endif

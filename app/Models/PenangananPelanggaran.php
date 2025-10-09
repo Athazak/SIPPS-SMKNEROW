@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PenangananPelanggaran extends Model
 {
     use HasFactory;
-    protected $fillable = ['kategori', 'skor_min', 'skor_max', 'tindak_lanjut', 'level_penanganan'];
+    protected $fillable = ['kategori', 'skor_min', 'skor_max', 'tindak_lanjut'];
 }

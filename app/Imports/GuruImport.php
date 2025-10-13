@@ -2,23 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class GuruImport implements ToModel, WithHeadingRow
+class GuruImport implements ToCollection, WithHeadingRow
 {
-    public function model(array $row)
+    public $data;
+
+    public function collection(Collection $rows)
     {
-        return new User([
-            'name'     => $row['nama'],
-            'email'    => $row['email'] ?? null,
-            'password' => Hash::make('password123'),
-            'role'     => 'guru',
-            'nip'      => $row['nip'] ?? null,
-            'phone'    => $row['phone'] ?? null,
-            'status'   => 'aktif',
-        ]);
+        $this->data = $rows;
     }
 }

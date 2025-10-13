@@ -2,26 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\User;
-use App\Models\Kelas;
-use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class SiswaImport implements ToModel, WithHeadingRow
+class SiswaImport implements ToCollection, WithHeadingRow
 {
-    public function model(array $row)
-    {
-        $kelas = Kelas::firstOrCreate(['nama_kelas' => $row['kelas']]);
+    public $data;
 
-        return new User([
-            'name'     => $row['nama'],
-            'email'    => $row['email'] ?? null,
-            'password' => Hash::make('password123'),
-            'role'     => 'siswa',
-            'nis'      => $row['nis'] ?? null,
-            'kelas_id' => $kelas->id,
-            'status'   => 'aktif',
-        ]);
+    public function collection(Collection $rows)
+    {
+        $this->data = $rows;
     }
 }

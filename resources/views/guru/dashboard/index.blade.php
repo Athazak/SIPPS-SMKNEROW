@@ -7,8 +7,6 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-xl font-bold mb-4">Dashboard Guru</h1>
-
             <div class="bg-white dark:bg-gray-800 p-6 shadow rounded mb-4">
                 <p class="text-gray-700 dark:text-gray-300">
                     Total pelanggaran yang Anda catat:

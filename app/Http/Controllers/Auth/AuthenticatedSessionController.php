@@ -30,24 +30,14 @@ class AuthenticatedSessionController extends Controller
 
         $user = $request->user();
 
-        switch ($user->role) {
-            case 'admin':
-                return redirect()->route('admin.dashboard');
-            case 'guru':
-                return redirect()->route('guru.dashboard');
-            case 'siswa':
-                return redirect()->route('siswa.dashboard');
-            case 'ortu':
-                return redirect()->route('ortu.dashboard');
-            default:
-                // kalau role kosong/null
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                return redirect()->route('login')->withErrors([
-                    'email' => 'Akun anda belum memiliki role, hubungi admin.',
-                ]);
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->role === 'guru') {
+            return redirect()->route('guru.dashboard');
+        } elseif ($user->role === 'siswa') {
+            return redirect()->route('siswa.dashboard');
+        } else {
+            return redirect()->route('ortu.dashboard');
         }
     }
 

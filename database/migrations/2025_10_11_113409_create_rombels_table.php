@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('bentuk_pelanggarans', function (Blueprint $table) {
+        Schema::create('rombels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jenis_id')->constrained('jenis_pelanggarans')->cascadeOnDelete();
-            $table->string('bentuk');
-            $table->integer('skor')->default(0);
+            $table->enum('tingkat', ['X', 'XI', 'XII']);
+            $table->string('jurusan');
+            $table->string('nama_rombel');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('bentuk_pelanggarans');
+        Schema::dropIfExists('rombels');
     }
 };

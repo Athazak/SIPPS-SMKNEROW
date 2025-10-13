@@ -17,51 +17,9 @@
                     </x-nav-link>
 
                     @if(Auth::user()->role === 'admin')
-                        <div class="shrink-0 flex items-center">
-                            <x-dropdown align="left" width="48">
-                                <x-slot name="trigger">
-                                    <button
-                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
-                                        <div>{{ __('Master Data') }}</div>
-                                        <div class="ms-1">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('admin.import.index')"
-                                        :active="request()->routeIs('admin.import.*')">
-                                        {{ __('Import Guru & Siswa') }}
-                                    </x-dropdown-link>
-                                    <x-dropdown-link :href="route('admin.kelas.index')"
-                                        :active="request()->routeIs('admin.kelas.*')">
-                                        {{ __('Kelas') }}
-                                    </x-dropdown-link>
-                                    <x-dropdown-link :href="route('admin.jenis-pelanggaran.index')"
-                                        :active="request()->routeIs('admin.jenis-pelanggaran.*')">
-                                        {{ __('Jenis Pelanggaran') }}
-                                    </x-dropdown-link>
-                                    <x-dropdown-link :href="route('admin.bentuk-pelanggaran.index')"
-                                        :active="request()->routeIs('admin.bentuk-pelanggaran.*')">
-                                        {{ __('Bentuk Pelanggaran') }}
-                                    </x-dropdown-link>
-                                    <x-dropdown-link :href="route('admin.penghargaan.index')"
-                                        :active="request()->routeIs('admin.penghargaan.*')">
-                                        {{ __('Penghargaan') }}
-                                    </x-dropdown-link>
-                                    <x-dropdown-link :href="route('admin.penanganan.index')"
-                                        :active="request()->routeIs('admin.penanganan.*')">
-                                        {{ __('Penanganan Pelanggaran') }}
-                                    </x-dropdown-link>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
+                        <x-nav-link :href="route('admin.rombel.index')" :active="request()->routeIs('admin.rombel.*')">
+                            Kelola Rombel
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'guru')
@@ -74,14 +32,14 @@
 
                     @if(Auth::user()->role === 'siswa')
                         <!-- <x-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.*')">
-                                                                                {{ __('Prestasi') }}
-                                                                            </x-nav-link> -->
+                                                                                        {{ __('Prestasi') }}
+                                                                                    </x-nav-link> -->
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
                         <!-- <x-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                                                                                {{ __('Laporan Anak') }}
-                                                                            </x-nav-link> -->
+                                                                                        {{ __('Laporan Anak') }}
+                                                                                    </x-nav-link> -->
                     @endif
                 </div>
             </div>
@@ -149,9 +107,6 @@
             @if(Auth::user()->role === 'admin')
                 <x-responsive-nav-link :href="route('admin.import.index')" :active="request()->routeIs('admin.import.*')">
                     {{ __('Import Guru & Siswa') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.kelas.index')" :active="request()->routeIs('admin.kelas.*')">
-                    {{ __('Kelas') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.jenis-pelanggaran.index')"
                     :active="request()->routeIs('admin.jenis-pelanggaran.*')">

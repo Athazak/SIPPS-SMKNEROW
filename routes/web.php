@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImportController;
-use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\RombelController;
 use App\Http\Controllers\Admin\JenisPelanggaranController;
 use App\Http\Controllers\Admin\BentukPelanggaranController;
 use App\Http\Controllers\Admin\PenangananPelanggaranController;
@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('auth.login');
+})->name('login');
 
 /*
 |--------------------------------------------------------------------------
@@ -49,11 +49,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/import/guru/store', [ImportController::class, 'storeGuru'])->name('import.guru-store');
 
     // Kelola Kelas
-    Route::resource('kelas', KelasController::class)->parameters([
-        'kelas' => 'kelas'
-    ]);
-    Route::get('/kelas/get-next-number', [KelasController::class, 'getNextNumber'])
-        ->name('kelas.getNextNumber');
+    Route::resource('rombel', RombelController::class);
 
     // Jenis dan Bentuk Pelanggaran
     Route::resource('jenis-pelanggaran', JenisPelanggaranController::class);

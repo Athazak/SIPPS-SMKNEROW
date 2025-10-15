@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('nuptk')->nullable();
             $table->string('nip')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->string('status_kepegawaian')->nullable();
             $table->timestamps();
         });
     }

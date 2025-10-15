@@ -2,16 +2,47 @@
 
 namespace App\Imports;
 
+use App\Models\User;
+use App\Models\Guru;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class GuruImport implements ToCollection, WithHeadingRow
+class GuruImport implements ToCollection
 {
-    public $data;
-
     public function collection(Collection $rows)
     {
-        $this->data = $rows;
+        // skip 6 baris header pertama
+        $rows = $rows->skip(5);
+
+        foreach ($rows as $row) {
+            if (!$row[1])
+                continue; // skip kosong
+
+            $nama = trim($row[1]);
+            $nuptk = $row[2];
+            $nip = $row[6];
+            $jk = $row[3] == 'L' ? 'L' : 'P';
+            $status = $row[7];
+            $tglLahir = \Carbon\Carbon::parse($row[5]);
+
+            // username = ddmmyy
+            $username = $tglLahir->format('dmy');
+
+            $user = User::create([
+                'nama' => $nama,
+                'username' => $username,
+                'password' => Hash::make('123456'),
+                'role' => 'guru',
+            ]);
+
+            Guru::create([
+                'user_id' => $user->id,
+                'nuptk' => $nuptk,
+                'nip' => $nip,
+                'jenis_kelamin' => $jk,
+                'status_kepegawaian' => $status,
+            ]);
+        }
     }
 }

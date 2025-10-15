@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ImportController;
 use App\Http\Controllers\Admin\RombelController;
-use App\Http\Controllers\Admin\JenisPelanggaranController;
+use App\Http\Controllers\Admin\PelanggaranController;
 use App\Http\Controllers\Admin\BentukPelanggaranController;
 use App\Http\Controllers\Admin\PenangananPelanggaranController;
 use App\Http\Controllers\Admin\PenghargaanController;
@@ -38,21 +39,18 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // Import User
-    Route::get('/import', [ImportController::class, 'index'])->name('import.index');
-    Route::post('/import/siswa/preview', [ImportController::class, 'previewSiswa'])->name('import.preview-siswa');
-    Route::post('/import/siswa/store', [ImportController::class, 'storeSiswa'])->name('import.siswa-store');
-
-    Route::post('/import/generate-ortu', [ImportController::class, 'generateOrtu'])->name('import.generate-ortu');
-
-    Route::post('/import/guru/preview', [ImportController::class, 'previewGuru'])->name('import.preview-guru');
-    Route::post('/import/guru/store', [ImportController::class, 'storeGuru'])->name('import.guru-store');
-
     // Kelola Kelas
     Route::resource('rombel', RombelController::class);
 
+    // Import User
+    Route::get('/import/guru', [GuruController::class, 'index'])->name('guru.index');
+    Route::post('/import/guru', [GuruController::class, 'import'])->name('guru.import');
+    
+    Route::get('/import/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+    Route::post('/import/siswa', [SiswaController::class, 'import'])->name('siswa.import');
+    
     // Jenis dan Bentuk Pelanggaran
-    Route::resource('jenis-pelanggaran', JenisPelanggaranController::class);
+    Route::resource('pelanggaran', PelanggaranController::class);
     Route::resource('bentuk-pelanggaran', BentukPelanggaranController::class);
     Route::resource('penanganan', PenangananPelanggaranController::class);
 

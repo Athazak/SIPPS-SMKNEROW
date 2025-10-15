@@ -20,6 +20,12 @@
                         <x-nav-link :href="route('admin.rombel.index')" :active="request()->routeIs('admin.rombel.*')">
                             Kelola Rombel
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.guru.index')" :active="request()->routeIs('admin.guru.*')">
+                            Data Guru
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.siswa.index')" :active="request()->routeIs('admin.siswa.*')">
+                            Data Siswa
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'guru')
@@ -105,12 +111,11 @@
             </x-responsive-nav-link>
 
             @if(Auth::user()->role === 'admin')
-                <x-responsive-nav-link :href="route('admin.import.index')" :active="request()->routeIs('admin.import.*')">
-                    {{ __('Import Guru & Siswa') }}
+                <x-responsive-nav-link :href="route('admin.guru.index')" :active="request()->routeIs('admin.guru.*')">
+                    {{ __('Data Guru') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.jenis-pelanggaran.index')"
-                    :active="request()->routeIs('admin.jenis-pelanggaran.*')">
-                    {{ __('Jenis Pelanggaran') }}
+                <x-responsive-nav-link :href="route('admin.siswa.index')" :active="request()->routeIs('admin.siswa.*')">
+                    {{ __('Data Siswa') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.bentuk-pelanggaran.index')"
                     :active="request()->routeIs('admin.bentuk-pelanggaran.*')">

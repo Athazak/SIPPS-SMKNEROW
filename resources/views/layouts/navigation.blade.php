@@ -38,33 +38,31 @@
                             :active="request()->routeIs('admin.penanganan.*')">
                             Penanganan Pelanggaran
                         </x-nav-link>
-                        <x-nav-link :href="route('admin.laporan.index')"
-                            :active="request()->routeIs('admin.laporan.*')">
+                        <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">
                             Laporan
                         </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'guru')
-                    <x-nav-link :href="route('guru.kelas.index')"
-                        :active="request()->routeIs('guru.kelas.*')">
-                        {{ __('Manajemen Kelas') }}
-                    </x-nav-link>
+                        <x-nav-link :href="route('guru.kelas.index')" :active="request()->routeIs('guru.kelas.*')">
+                            {{ __('Kelas') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('guru.pelanggaran.index')"
                             :active="request()->routeIs('guru.pelanggaran.*')">
-                            {{ __('Pelanggaran') }}
+                            {{ __('Input Pelanggaran') }}
                         </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'siswa')
                         <!-- <x-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.*')">
-                                                                                            {{ __('Prestasi') }}
-                                                                                        </x-nav-link> -->
+                                                                                                {{ __('Prestasi') }}
+                                                                                            </x-nav-link> -->
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
                         <!-- <x-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                                                                                            {{ __('Laporan Anak') }}
-                                                                                        </x-nav-link> -->
+                                                                                                {{ __('Laporan Anak') }}
+                                                                                            </x-nav-link> -->
                     @endif
                 </div>
             </div>

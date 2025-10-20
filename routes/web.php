@@ -73,7 +73,8 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
     Route::get('dashboard', [App\Http\Controllers\Guru\DashboardController::class, 'index'])->name('dashboard');
     Route::get('kelas', [KelasController::class, 'index'])->name('kelas.index');
     Route::get('kelas/{siswa}', [KelasController::class, 'show'])->name('kelas.show');
-    Route::resource('pelanggaran', App\Http\Controllers\Guru\PelanggaranController::class);
+    Route::get('pelanggaran', [App\Http\Controllers\Guru\PelanggaranController::class, 'index'])->name('pelanggaran.index');
+    Route::post('pelanggaran', [App\Http\Controllers\Guru\PelanggaranController::class, 'store'])->name('pelanggaran.store');
 });
 
 /*

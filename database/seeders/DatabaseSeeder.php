@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\PenangananPelanggaran;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,7 +13,7 @@ class DatabaseSeeder extends Seeder
             RombelSeeder::class,
             PelanggaranSeeder::class,
             PenghargaanSeeder::class,
-            PenangananPelanggaran::class,
+            PenangananPelanggaranSeeder::class,
         ]);
     }
 

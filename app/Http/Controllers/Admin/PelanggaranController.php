@@ -11,54 +11,38 @@ class PelanggaranController extends Controller
     public function index()
     {
         $pelanggarans = Pelanggaran::latest()->paginate(10);
-        return view('admin.pelanggaran.index', compact('pelanggaran'));
+        return view('admin.pelanggaran.index', compact('pelanggarans'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'jenis_pelanggan' => 'requires|in:Sikap perilaku,Kerapian,Kerajinan',
-            'bentuk' => 'requires|string|max:225',
+            'jenis_pelanggaran' => 'required|in:Sikap perilaku,Kerapian,Kerajinan',
+            'bentuk' => 'required|string|max:225',
             'skor' => 'required|integer|min:1',
         ]);
 
         Pelanggaran::create($request->only('jenis_pelanggaran', 'bentuk', 'skor'));
 
-        return redirect('admin.pelanggaran.index')->with('success', 'Pelanggaran berhasil ditambahkan.');
+        return redirect()->route('admin.pelanggaran.index')->with('success', 'Pelanggaran Pelanggaran berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, Pelanggaran $pelanggaran)
     {
-        //
+        $request->validate([
+            'jenis_pelanggaran' => 'required|in:Sikap perilaku,Kerapian,Kerajinan',
+            'bentuk' => 'required|string|max:225',
+            'skor' => 'required|integer|min:1',
+        ]);
+
+        $pelanggaran->update($request->only('jenis_pelanggaran', 'bentuk', 'skor'));
+
+        return redirect()->route('admin.pelanggaran.index')->with('success', 'Pelanggaran Pelanggaran berhasil diperbarui.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Pelanggaran $pelanggaran)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $pelanggaran->delete();
+        return back()->with('success', 'Pelanggaran berhasil dihapus.');
     }
 }

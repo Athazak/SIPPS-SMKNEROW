@@ -1,23 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Kelola Penghargaan') }}
+            {{ __('Kelola Pelanggaran') }}
         </h2>
     </x-slot>
 
     <div class="py-8" x-data="{ 
             openTambah: false, 
             openEdit: false, 
-            selected: { id: '', bentuk: '', kriteria: '', skor: '' } 
+            selected: { id: '', jenis_pelanggaran: '', bentuk: '', skor: '' } 
         }">
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Daftar Penghargaan</h3>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Daftar Pelanggaran</h3>
                     <button @click="openTambah = true"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                        + Tambah Penghargaan
+                        + Tambah Pelanggaran
                     </button>
                 </div>
 
@@ -25,31 +25,31 @@
                     <thead class="bg-gray-200 dark:bg-gray-700">
                         <tr>
                             <th class="py-2 px-3">#</th>
-                            <th class="py-2 px-3">Bentuk Penghargaan</th>
-                            <th class="py-2 px-3">Kriteria</th>
+                            <th class="py-2 px-3">Jenis Pelanggaran</th>
+                            <th class="py-2 px-3">Bentuk</th>
                             <th class="py-2 px-3">Skor</th>
                             <th class="py-2 px-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($penghargaans as $penghargaan)
+                        @forelse ($pelanggarans as $pelanggaran)
                             <tr class="border-b border-gray-300 dark:border-gray-700">
                                 <td class="py-2 px-3">{{ $loop->iteration }}</td>
-                                <td class="py-2 px-3">{{ $penghargaan->bentuk }}</td>
-                                <td class="py-2 px-3">{{ $penghargaan->kriteria }}</td>
-                                <td class="py-2 px-3">{{ $penghargaan->skor }}</td>
+                                <td class="py-2 px-3">{{ $pelanggaran->jenis_pelanggaran }}</td>
+                                <td class="py-2 px-3">{{ $pelanggaran->bentuk }}</td>
+                                <td class="py-2 px-3">{{ $pelanggaran->skor }}</td>
                                 <td class="py-2 px-3 text-center space-x-2">
                                     <button @click="
-                                                            openEdit = true;
-                                                            selected.id = '{{ $penghargaan->id }}';
-                                                            selected.bentuk = '{{ $penghargaan->bentuk }}';
-                                                            selected.kriteria = '{{ $penghargaan->kriteria }}';
-                                                            selected.skor = '{{ $penghargaan->skor }}';
-                                                        " class="text-blue-600 hover:underline">
+                                            openEdit = true;
+                                            selected.id = '{{ $pelanggaran->id }}';
+                                            selected.jenis_pelanggaran = '{{ $pelanggaran->jenis_pelanggaran }}';
+                                            selected.bentuk = '{{ $pelanggaran->bentuk }}';
+                                            selected.skor = '{{ $pelanggaran->skor }}';
+                                        " class="text-blue-600 hover:underline">
                                         Edit
                                     </button>
 
-                                    <form action="{{ route('admin.penghargaan.destroy', $penghargaan->id) }}" method="POST"
+                                    <form action="{{ route('admin.pelanggaran.destroy', $pelanggaran->id) }}" method="POST"
                                         class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -62,33 +62,32 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4">Belum ada data Penghargaan.</td>
+                                <td colspan="5" class="text-center py-4">Belum ada data pelanggaran.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
 
-                <div class="mt-4">{{ $penghargaans->links() }}</div>
+                <div class="mt-4">{{ $pelanggarans->links() }}</div>
             </div>
 
             <!-- Modal Tambah -->
-            <x-modal title="Tambah Penghargaan" show="openTambah">
-                <form action="{{ route('admin.penghargaan.store') }}" method="POST">
+            <x-modal title="Tambah Pelanggaran" show="openTambah">
+                <form action="{{ route('admin.pelanggaran.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Jenis Penghargaan</label>
-                        <select name="bentuk"
+                        <label class="block text-sm font-medium text-gray-700">Jenis Pelanggaran</label>
+                        <select name="jenis_pelanggaran"
                             class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">-- Pilih Bentuk --</option>
-                            <option value="Berprestasi akademik & non akademik">Berprestasi akademik & non
-                                akademik</option>
-                            <option value="Tidak berprestasi akademik & non akademik">Tidak berprestasi akademik & non
-                                akademik</option>
+                            <option value="">-- Pilih Jenis --</option>
+                            <option value="Sikap perilaku">Sikap perilaku</option>
+                            <option value="Kerapian">Kerapian</option>
+                            <option value="Kerajinan">Kerajinan</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Kriteria</label>
-                        <input type="text" name="kriteria"
+                        <label class="block text-sm font-medium text-gray-700">Bentuk</label>
+                        <input type="text" name="bentuk"
                             class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div class="mb-4">
@@ -110,24 +109,23 @@
             </x-modal>
 
             <!-- Modal Edit -->
-            <x-modal title="Edit Penghargaan" show="openEdit">
-                <form :action="`{{ url('admin/penghargaan') }}/${selected.id}`" method="POST">
+            <x-modal title="Edit Pelanggaran" show="openEdit">
+                <form :action="`{{ url('admin/pelanggaran') }}/${selected.id}`" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Jenis Penghargaan</label>
-                        <select name="bentuk" x-model="selected.bentuk"
+                        <label class="block text-sm font-medium text-gray-700">Jenis Pelanggaran</label>
+                        <select name="jenis_pelanggaran" x-model="selected.jenis_pelanggaran"
                             class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">-- Pilih Bentuk --</option>
-                            <option value="Berprestasi akademik & non akademik">Berprestasi akademik & non
-                                akademik</option>
-                            <option value="Tidak berprestasi akademik & non akademik">Tidak berprestasi akademik & non
-                                akademik</option>
+                            <option value="">-- Pilih Jenis --</option>
+                            <option value="Sikap perilaku">Sikap perilaku</option>
+                            <option value="Kerapian">Kerapian</option>
+                            <option value="Kerajinan">Kerajinan</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Kriteria</label>
-                        <input type="text" name="kriteria" x-model="selected.kriteria"
+                        <label class="block text-sm font-medium text-gray-700">Bentuk</label>
+                        <input type="text" name="bentuk" x-model="selected.bentuk"
                             class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div class="mb-4">

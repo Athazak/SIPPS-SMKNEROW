@@ -31,8 +31,8 @@
                 <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">Daftar Guru</h3>
 
                 <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm text-left border border-gray-300 dark:border-gray-700">
-                        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                    <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
+                        <thead class="bg-gray-200 dark:bg-gray-700">
                             <tr>
                                 <th class="px-4 py-2 border">No</th>
                                 <th class="px-4 py-2 border">Nama</th>

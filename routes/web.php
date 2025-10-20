@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Guru\KelasController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\RombelController;
 use App\Http\Controllers\Admin\PelanggaranController;
-use App\Http\Controllers\Admin\BentukPelanggaranController;
 use App\Http\Controllers\Admin\PenangananPelanggaranController;
 use App\Http\Controllers\Admin\PenghargaanController;
 use Illuminate\Support\Facades\Route;
@@ -45,17 +46,22 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Import User
     Route::get('/import/guru', [GuruController::class, 'index'])->name('guru.index');
     Route::post('/import/guru', [GuruController::class, 'import'])->name('guru.import');
-    
+
     Route::get('/import/siswa', [SiswaController::class, 'index'])->name('siswa.index');
     Route::post('/import/siswa', [SiswaController::class, 'import'])->name('siswa.import');
-    
-    // Jenis dan Bentuk Pelanggaran
+
+    // Pelanggaran
     Route::resource('pelanggaran', PelanggaranController::class);
-    Route::resource('bentuk-pelanggaran', BentukPelanggaranController::class);
-    Route::resource('penanganan', PenangananPelanggaranController::class);
 
     // Penghargaan
     Route::resource('penghargaan', PenghargaanController::class);
+
+    // Penanganan
+    Route::resource('penanganan', PenangananPelanggaranController::class);
+
+    // Laporan
+    Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('laporan/cetak', [LaporanController::class, 'cetak'])->name('laporan.cetak');
 });
 
 /*
@@ -64,7 +70,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Guru\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [App\Http\Controllers\Guru\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('kelas', [KelasController::class, 'index'])->name('kelas.index');
+    Route::get('kelas/{siswa}', [KelasController::class, 'show'])->name('kelas.show');
     Route::resource('pelanggaran', App\Http\Controllers\Guru\PelanggaranController::class);
 });
 

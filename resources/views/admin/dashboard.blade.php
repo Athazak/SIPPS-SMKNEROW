@@ -14,7 +14,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm opacity-80">Jumlah Guru</p>
-                            <p class="text-3xl font-bold">{{ $total['guru'] }}</p>
+                            <p class="text-3xl font-bold">{{ $total['guru'] }}</p>  
                         </div>
                         <x-heroicon-o-user-group class="w-10 h-10 opacity-70" />
                     </div>

@@ -1,30 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Catatan Pelanggaran Siswa') }}
+            {{ __('Catatan Penghargaan Siswa') }}
         </h2>
     </x-slot>
 
     <div class="py-8" x-data="{ openTambah: false }">
-        {{-- ===== BAGIAN TABEL UTAMA ===== --}}
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" x-data="{ selectedRombel: '' }">
             <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        Daftar Pelanggaran
-                    </h3>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Daftar Penghargaan</h3>
                     <button @click="openTambah = true" x-data @click="$dispatch('open-modal')"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                        + Tambah Pelanggaran
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        + Tambah Penghargaan
                     </button>
                 </div>
 
-                {{-- Filter Rombel (hanya memengaruhi tabel) --}}
+                {{-- Filter Rombel --}}
                 <div class="flex gap-4 mb-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Filter Rombel</label>
                         <select x-model="selectedRombel"
-                            class="mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            class="mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
                             <option value="">Semua Rombel</option>
                             @foreach ($siswa->pluck('rombel.nama_rombel')->unique() as $rombel)
                                 <option value="{{ $rombel }}">{{ $rombel }}</option>
@@ -41,8 +38,8 @@
                             <th class="py-2 px-3">Tanggal</th>
                             <th class="py-2 px-3">Nama Siswa</th>
                             <th class="py-2 px-3">Rombel</th>
-                            <th class="py-2 px-3">Jenis</th>
                             <th class="py-2 px-3">Bentuk</th>
+                            <th class="py-2 px-3">Kriteria</th>
                             <th class="py-2 px-3 text-center">Skor</th>
                             <th class="py-2 px-3">Keterangan</th>
                         </tr>
@@ -57,16 +54,16 @@
                                 </td>
                                 <td class="py-2 px-3">{{ $item->siswa->user->nama }}</td>
                                 <td class="py-2 px-3">{{ $item->siswa->rombel->nama_rombel ?? '-' }}</td>
-                                <td class="py-2 px-3">{{ $item->pelanggaran->jenis_pelanggaran }}</td>
-                                <td class="py-2 px-3">{{ $item->pelanggaran->bentuk }}</td>
-                                <td class="py-2 px-3 text-center font-semibold text-red-600">
-                                    {{ $item->pelanggaran->skor }}
+                                <td class="py-2 px-3">{{ $item->penghargaan->bentuk }}</td>
+                                <td class="py-2 px-3">{{ $item->penghargaan->kriteria }}</td>
+                                <td class="py-2 px-3 text-center font-semibold text-green-600">
+                                    {{ $item->penghargaan->skor }}
                                 </td>
                                 <td class="py-2 px-3">{{ $item->keterangan ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">Belum ada data pelanggaran.</td>
+                                <td colspan="8" class="text-center py-4">Belum ada data penghargaan.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -77,16 +74,21 @@
         </div>
 
         {{-- ===== MODAL TAMBAH ===== --}}
-        <x-modal title="Tambah Catatan Pelanggaran" show="openTambah" size="3xl">
-            <div x-data="{ selectedRombelModal: '', selectedJenisModal: '' }">
-                <form action="{{ route('guru.pelanggaran.store') }}" method="POST">
+        <x-modal title="Tambah Catatan Penghargaan" show="openTambah" size="3xl">
+            <div x-data="{ 
+        selectedRombelModal: '', 
+        selectedBentukModal: '',
+        siswaList: @js($siswa),
+        penghargaanList: @js($penghargaans)
+    }">
+                <form action="{{ route('guru.penghargaan.store') }}" method="POST">
                     @csrf
 
-                    {{-- Filter rombel khusus modal --}}
+                    {{-- Filter Rombel --}}
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Rombel</label>
                         <select x-model="selectedRombelModal"
-                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
                             <option value="">-- Pilih Rombel --</option>
                             @foreach ($siswa->pluck('rombel.nama_rombel')->unique() as $rombel)
                                 <option value="{{ $rombel }}">{{ $rombel }}</option>
@@ -94,17 +96,14 @@
                         </select>
                     </div>
 
-                    {{-- Pilih siswa --}}
-                    <div class="mb-4" x-data="{ siswaList: @js($siswa) }">
+                    {{-- Pilih Siswa --}}
+                    <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Siswa</label>
                         <select name="siswa_id" :disabled="!selectedRombelModal"
-                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed">
-
-                            {{-- opsi default dinamis --}}
+                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 disabled:bg-gray-100 disabled:cursor-not-allowed">
                             <option value=""
                                 x-text="selectedRombelModal ? '-- Pilih Siswa --' : 'Pilih Rombel Terlebih Dahulu'">
                             </option>
-
                             <template
                                 x-for="item in siswaList.filter(s => s.rombel.nama_rombel === selectedRombelModal)"
                                 :key="item.id">
@@ -114,32 +113,29 @@
                         </select>
                     </div>
 
-                    {{-- Filter Jenis Pelanggaran --}}
+                    {{-- Filter Bentuk Penghargaan --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Jenis Pelanggaran</label>
-                        <select x-model="selectedJenisModal"
-                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">-- Pilih Jenis --</option>
-                            @foreach ($pelanggarans->pluck('jenis_pelanggaran')->unique() as $jenis)
-                                <option value="{{ $jenis }}">{{ $jenis }}</option>
+                        <label class="block text-sm font-medium text-gray-700">Bentuk Penghargaan</label>
+                        <select x-model="selectedBentukModal"
+                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500">
+                            <option value="">-- Pilih Bentuk --</option>
+                            @foreach ($penghargaans->pluck('bentuk')->unique() as $bentuk)
+                                <option value="{{ $bentuk }}">{{ $bentuk }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    {{-- Pilih Pelanggaran --}}
-                    <div class="mb-4" x-data="{ pelanggaranList: @js($pelanggarans) }">
-                        <label class="block text-sm font-medium text-gray-700">Pelanggaran</label>
-                        <select name="pelanggaran_id" :disabled="!selectedJenisModal"
-                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed">
-
+                    {{-- Pilih Penghargaan --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Penghargaan</label>
+                        <select name="penghargaan_id" :disabled="!selectedBentukModal"
+                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 disabled:bg-gray-100 disabled:cursor-not-allowed">
                             <option value=""
-                                x-text="selectedJenisModal ? '-- Pilih Pelanggaran --' : 'Pilih Jenis Pelanggaran Terlebih Dahulu'">
+                                x-text="selectedBentukModal ? '-- Pilih Penghargaan --' : 'Pilih Bentuk Penghargaan Terlebih Dahulu'">
                             </option>
-
-                            <template
-                                x-for="p in pelanggaranList.filter(pl => pl.jenis_pelanggaran === selectedJenisModal)"
+                            <template x-for="p in penghargaanList.filter(pg => pg.bentuk === selectedBentukModal)"
                                 :key="p.id">
-                                <option :value="p.id" x-text="`${p.bentuk} (${p.skor} skor)`">
+                                <option :value="p.id" x-text="`${p.kriteria} (${p.skor} skor)`">
                                 </option>
                             </template>
                         </select>
@@ -149,7 +145,7 @@
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Keterangan</label>
                         <textarea name="keterangan" rows="3"
-                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                            class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                             placeholder="Tuliskan keterangan (opsional)"></textarea>
                     </div>
 
@@ -159,7 +155,7 @@
                             class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
                             Batal
                         </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                             Simpan
                         </button>
                     </div>

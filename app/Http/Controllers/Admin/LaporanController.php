@@ -12,6 +12,7 @@ use App\Models\PenangananPelanggaran;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LaporanController extends Controller
 {
@@ -32,7 +33,7 @@ class LaporanController extends Controller
         if ($request->filled('kategori')) {
             $queryPelanggaran->whereHas('pelanggaran', fn($q) => $q->where('jenis_pelanggaran', $request->kategori));
         }
-        $catatanPelanggarans = $queryPelanggaran->latest()->paginate(10)->withQueryString();
+        $catatanPelanggarans = $queryPelanggaran->latest()->paginate(10, ['*'], 'pelanggaran_page')->withQueryString();
 
         // ====== TAB PENGHARGAAN ======
         $queryPenghargaan = CatatanPenghargaan::with(['siswa.user', 'siswa.rombel', 'guru.user', 'penghargaan']);
@@ -43,19 +44,21 @@ class LaporanController extends Controller
         if ($request->filled('rombel_id')) {
             $queryPenghargaan->whereHas('siswa', fn($q) => $q->where('rombel_id', $request->rombel_id));
         }
-        $catatanPenghargaans = $queryPenghargaan->latest()->paginate(10)->withQueryString();
+        $catatanPenghargaans = $queryPenghargaan->latest()->paginate(10, ['*'], 'penghargaan_page')->withQueryString();
 
         // ====== TAB REKAP ======
-        $siswaQuery = Siswa::with(['user', 'rombel']);
+        $siswaQuery = Siswa::with(['user', 'rombel', 'catatanPelanggarans', 'catatanPenghargaans.penghargaan']);
         if ($request->filled('rombel_id'))
             $siswaQuery->where('rombel_id', $request->rombel_id);
-        $dataRekap = $siswaQuery->get()->map(function ($siswa) {
+
+        $dataCollection = $siswaQuery->get()->map(function ($siswa) {
             $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
             $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
             $skorAkhir = $totalPelanggaran - $totalPenghargaan;
             $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
                 ->where('skor_max', '>=', $skorAkhir)
                 ->first();
+
             return [
                 'nama' => $siswa->user->nama,
                 'rombel' => $siswa->rombel->nama_rombel ?? '-',
@@ -66,6 +69,18 @@ class LaporanController extends Controller
                 'penanganan' => $penanganan->tindak_lanjut ?? '-',
             ];
         });
+
+        // === PAGINASI MANUAL ===
+        $page = $request->get('rekap_page', 1);
+        $perPage = 10;
+
+        $dataRekap = new LengthAwarePaginator(
+            $dataCollection->forPage($page, $perPage),
+            $dataCollection->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query(), 'pageName' => 'rekap_page']
+        );
 
         return view('admin.laporan.index', compact(
             'tab',

@@ -74,13 +74,13 @@
                                         </td>
                                         <td class="py-2 px-3 text-center">
                                             <button @click="
-                                                            fetch(`/guru/kelas/{{ $item['id'] }}`)
-                                                                .then(res => res.json())
-                                                                .then(data => {
-                                                                    siswa = data;
-                                                                    openDetail = true;
-                                                                });
-                                                        " class="text-blue-600 hover:underline font-medium">
+                                                                    fetch(`/guru/kelas/{{ $item['id'] }}`)
+                                                                        .then(res => res.json())
+                                                                        .then(data => {
+                                                                            siswa = data;
+                                                                            openDetail = true;
+                                                                        });
+                                                                " class="text-blue-600 hover:underline font-medium">
                                                 Detail
                                             </button>
                                         </td>
@@ -94,6 +94,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-4">
+                        {{ $siswaList->appends(request()->all())->links() }}
                     </div>
                 @else
                     <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-lg">
@@ -124,7 +127,6 @@
                                         <th class="px-2 py-1">Jenis</th>
                                         <th class="px-2 py-1">Bentuk</th>
                                         <th class="px-2 py-1">Skor</th>
-                                        <th class="px-2 py-1">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,7 +136,6 @@
                                             <td class="px-2 py-1" x-text="p.jenis"></td>
                                             <td class="px-2 py-1" x-text="p.bentuk"></td>
                                             <td class="px-2 py-1 text-center" x-text="p.skor"></td>
-                                            <td class="px-2 py-1" x-text="p.keterangan"></td>
                                         </tr>
                                     </template>
                                 </tbody>

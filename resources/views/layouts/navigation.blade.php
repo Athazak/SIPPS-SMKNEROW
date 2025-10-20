@@ -51,6 +51,10 @@
                             :active="request()->routeIs('guru.pelanggaran.*')">
                             {{ __('Input Pelanggaran') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('guru.penghargaan.index')"
+                            :active="request()->routeIs('guru.penghargaan.*')">
+                            {{ __('Input Penghargaan') }}
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'siswa')

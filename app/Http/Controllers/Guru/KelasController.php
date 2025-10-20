@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Rombel;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class KelasController extends Controller
 {
@@ -17,7 +18,7 @@ class KelasController extends Controller
         $siswaList = collect();
 
         if ($selectedRombel) {
-            $siswaList = Siswa::with(['user', 'rombel', 'catatanPelanggarans.pelanggaran', 'catatanPenghargaans.penghargaan'])
+            $siswaCollection = Siswa::with(['user', 'rombel', 'catatanPelanggarans.pelanggaran', 'catatanPenghargaans.penghargaan'])
                 ->where('rombel_id', $selectedRombel)
                 ->get()
                 ->map(function ($siswa) {
@@ -32,6 +33,19 @@ class KelasController extends Controller
                         'skor_akhir' => $totalPelanggaran - $totalPenghargaan,
                     ];
                 });
+
+            $page = LengthAwarePaginator::resolveCurrentPage();
+            $perPage = 10;
+            $offset = ($page - 1) * $perPage;
+            $items = $siswaCollection->slice($offset, $perPage)->values();
+
+            $siswaList = new LengthAwarePaginator(
+                $items,
+                $siswaCollection->count(),
+                $perPage,
+                $page,
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
         }
 
         return view('guru.kelas.index', compact('rombels', 'selectedRombel', 'siswaList'));

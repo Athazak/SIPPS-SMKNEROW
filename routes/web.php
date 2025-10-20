@@ -75,6 +75,8 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
     Route::get('kelas/{siswa}', [KelasController::class, 'show'])->name('kelas.show');
     Route::get('pelanggaran', [App\Http\Controllers\Guru\PelanggaranController::class, 'index'])->name('pelanggaran.index');
     Route::post('pelanggaran', [App\Http\Controllers\Guru\PelanggaranController::class, 'store'])->name('pelanggaran.store');
+    Route::get('penghargaan', [App\Http\Controllers\Guru\PenghargaanController::class, 'index'])->name('penghargaan.index');
+    Route::post('penghargaan', [App\Http\Controllers\Guru\PenghargaanController::class, 'store'])->name('penghargaan.store');
 });
 
 /*

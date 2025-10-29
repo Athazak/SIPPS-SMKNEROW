@@ -58,15 +58,20 @@
                     @endif
 
                     @if(Auth::user()->role === 'siswa')
-                        <!-- <x-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.*')">
-                                                                                                {{ __('Prestasi') }}
-                                                                                            </x-nav-link> -->
+                        <x-nav-link :href="route('siswa.pelanggaran.index')"
+                            :active="request()->routeIs('siswa.pelanggaran.*')">
+                            {{ __('Riwayat Pelanggaran') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('siswa.penghargaan.index')"
+                            :active="request()->routeIs('siswa.penghargaan.*')">
+                            {{ __('Riwayat Penghargaan') }}
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
                         <!-- <x-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                                                                                                {{ __('Laporan Anak') }}
-                                                                                            </x-nav-link> -->
+                                                                                                    {{ __('Laporan Anak') }}
+                                                                                                </x-nav-link> -->
                     @endif
                 </div>
             </div>
@@ -149,6 +154,9 @@
                 <x-responsive-nav-link :href="route('admin.penanganan.index')"
                     :active="request()->routeIs('admin.penanganan.*')">
                     {{ __('Penanganan Pelanggaran') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">
+                    {{ __('Laporan') }}
                 </x-responsive-nav-link>
             @endif
 

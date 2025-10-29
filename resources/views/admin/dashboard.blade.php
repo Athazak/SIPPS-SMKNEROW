@@ -5,64 +5,68 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Kartu Statistik -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-                <!-- Guru -->
-                <div class="p-6 bg-green-500 dark:bg-green-700 text-white shadow rounded-xl hover:scale-105 transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm opacity-80">Jumlah Guru</p>
-                            <p class="text-3xl font-bold">{{ $total['guru'] }}</p>  
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow mb-6">
+                <!-- Kartu Statistik -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <!-- Guru -->
+                    <div
+                        class="p-6 bg-green-500 dark:bg-green-700 text-white shadow rounded-xl hover:scale-105 transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Jumlah Guru</p>
+                                <p class="text-3xl font-bold">{{ $total['guru'] }}</p>
+                            </div>
+                            <x-heroicon-o-user-group class="w-10 h-10 opacity-70" />
                         </div>
-                        <x-heroicon-o-user-group class="w-10 h-10 opacity-70" />
                     </div>
-                </div>
 
-                <!-- Siswa -->
-                <div class="p-6 bg-blue-500 dark:bg-blue-700 text-white shadow rounded-xl hover:scale-105 transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm opacity-80">Jumlah Siswa</p>
-                            <p class="text-3xl font-bold">{{ $total['siswa'] }}</p>
+                    <!-- Siswa -->
+                    <div
+                        class="p-6 bg-blue-500 dark:bg-blue-700 text-white shadow rounded-xl hover:scale-105 transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Jumlah Siswa</p>
+                                <p class="text-3xl font-bold">{{ $total['siswa'] }}</p>
+                            </div>
+                            <x-heroicon-o-academic-cap class="w-10 h-10 opacity-70" />
                         </div>
-                        <x-heroicon-o-academic-cap class="w-10 h-10 opacity-70" />
                     </div>
-                </div>
 
-                <!-- Rombel -->
-                <div
-                    class="p-6 bg-indigo-500 dark:bg-indigo-700 text-white shadow rounded-xl hover:scale-105 transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm opacity-80">Jumlah Rombel</p>
-                            <p class="text-3xl font-bold">{{ $total['rombel'] }}</p>
+                    <!-- Rombel -->
+                    <div
+                        class="p-6 bg-indigo-500 dark:bg-indigo-700 text-white shadow rounded-xl hover:scale-105 transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Jumlah Rombel</p>
+                                <p class="text-3xl font-bold">{{ $total['rombel'] }}</p>
+                            </div>
+                            <x-heroicon-o-building-office class="w-10 h-10 opacity-70" />
                         </div>
-                        <x-heroicon-o-building-office class="w-10 h-10 opacity-70" />
                     </div>
-                </div>
 
-                <!-- Pelanggaran -->
-                <div class="p-6 bg-red-500 dark:bg-red-700 text-white shadow rounded-xl hover:scale-105 transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm opacity-80">Total Pelanggaran</p>
-                            <p class="text-3xl font-bold">{{ $total['pelanggaran'] }}</p>
+                    <!-- Pelanggaran -->
+                    <div class="p-6 bg-red-500 dark:bg-red-700 text-white shadow rounded-xl hover:scale-105 transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Total Pelanggaran</p>
+                                <p class="text-3xl font-bold">{{ $total['pelanggaran'] }}</p>
+                            </div>
+                            <x-heroicon-o-exclamation-triangle class="w-10 h-10 opacity-70" />
                         </div>
-                        <x-heroicon-o-exclamation-triangle class="w-10 h-10 opacity-70" />
                     </div>
-                </div>
 
-                <!-- Penghargaan -->
-                <div
-                    class="p-6 bg-yellow-500 dark:bg-yellow-600 text-white shadow rounded-xl hover:scale-105 transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm opacity-80">Total Penghargaan</p>
-                            <p class="text-3xl font-bold">{{ $total['penghargaan'] }}</p>
+                    <!-- Penghargaan -->
+                    <div
+                        class="p-6 bg-yellow-500 dark:bg-yellow-600 text-white shadow rounded-xl hover:scale-105 transition">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm opacity-80">Total Penghargaan</p>
+                                <p class="text-3xl font-bold">{{ $total['penghargaan'] }}</p>
+                            </div>
+                            <x-heroicon-o-star class="w-10 h-10 opacity-70" />
                         </div>
-                        <x-heroicon-o-star class="w-10 h-10 opacity-70" />
                     </div>
                 </div>
             </div>

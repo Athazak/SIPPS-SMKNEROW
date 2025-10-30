@@ -69,9 +69,10 @@
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
-                        <!-- <x-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                                                                                                    {{ __('Laporan Anak') }}
-                                                                                                </x-nav-link> -->
+                        <x-nav-link :href="route('ortu.riwayat')"
+                            :active="request()->routeIs('ortu.riwayat')">
+                            {{ __('Riwayat Anak') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>

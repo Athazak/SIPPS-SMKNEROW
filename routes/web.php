@@ -96,7 +96,8 @@ Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->grou
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:ortu'])->prefix('ortu')->name('ortu.')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Ortu\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [App\Http\Controllers\Ortu\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('riwayat', [App\Http\Controllers\Ortu\OrtuRiwayatController::class, 'index'])->name('riwayat');
 });
 
 require __DIR__ . '/auth.php';

@@ -30,45 +30,47 @@
                     </div>
                 </div>
 
-                {{-- Tabel --}}
-                <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
-                    <thead class="bg-gray-200 dark:bg-gray-700">
-                        <tr>
-                            <th class="py-2 px-3">#</th>
-                            <th class="py-2 px-3">Tanggal</th>
-                            <th class="py-2 px-3">Nama Siswa</th>
-                            <th class="py-2 px-3">Rombel</th>
-                            <th class="py-2 px-3">Bentuk</th>
-                            <th class="py-2 px-3">Kriteria</th>
-                            <th class="py-2 px-3 text-center">Skor</th>
-                            <th class="py-2 px-3">Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($catatan as $item)
-                            <tr x-show="!selectedRombel || selectedRombel === '{{ $item->siswa->rombel->nama_rombel }}'"
-                                class="border-b border-gray-300 dark:border-gray-700">
-                                <td class="py-2 px-3">{{ $loop->iteration }}</td>
-                                <td class="py-2 px-3">
-                                    {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') : '-' }}
-                                </td>
-                                <td class="py-2 px-3">{{ $item->siswa->user->nama }}</td>
-                                <td class="py-2 px-3">{{ $item->siswa->rombel->nama_rombel ?? '-' }}</td>
-                                <td class="py-2 px-3">{{ $item->penghargaan->bentuk }}</td>
-                                <td class="py-2 px-3">{{ $item->penghargaan->kriteria }}</td>
-                                <td class="py-2 px-3 text-center font-semibold text-green-600">
-                                    {{ $item->penghargaan->skor }}
-                                </td>
-                                <td class="py-2 px-3">{{ $item->keterangan ?? '-' }}</td>
-                            </tr>
-                        @empty
+                <div class="overflow-x-auto">
+                    {{-- Tabel --}}
+                    <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
+                        <thead class="bg-gray-200 dark:bg-gray-700">
                             <tr>
-                                <td colspan="8" class="text-center py-4">Belum ada data penghargaan.</td>
+                                <th class="py-2 px-3">#</th>
+                                <th class="py-2 px-3">Tanggal</th>
+                                <th class="py-2 px-3">Nama Siswa</th>
+                                <th class="py-2 px-3">Rombel</th>
+                                <th class="py-2 px-3">Bentuk</th>
+                                <th class="py-2 px-3">Kriteria</th>
+                                <th class="py-2 px-3 text-center">Skor</th>
+                                <th class="py-2 px-3">Keterangan</th>
                             </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @forelse ($catatan as $item)
+                                <tr x-show="!selectedRombel || selectedRombel === '{{ $item->siswa->rombel->nama_rombel }}'"
+                                    class="border-b border-gray-300 dark:border-gray-700">
+                                    <td class="py-2 px-3">{{ $loop->iteration }}</td>
+                                    <td class="py-2 px-3">
+                                        {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') : '-' }}
+                                    </td>
+                                    <td class="py-2 px-3">{{ $item->siswa->user->nama }}</td>
+                                    <td class="py-2 px-3">{{ $item->siswa->rombel->nama_rombel ?? '-' }}</td>
+                                    <td class="py-2 px-3">{{ $item->penghargaan->bentuk }}</td>
+                                    <td class="py-2 px-3">{{ $item->penghargaan->kriteria }}</td>
+                                    <td class="py-2 px-3 text-center font-semibold text-green-600">
+                                        {{ $item->penghargaan->skor }}
+                                    </td>
+                                    <td class="py-2 px-3">{{ $item->keterangan ?? '-' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">Belum ada data penghargaan.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
 
+                </div>
                 <div class="mt-4">{{ $catatan->links() }}</div>
             </div>
         </div>

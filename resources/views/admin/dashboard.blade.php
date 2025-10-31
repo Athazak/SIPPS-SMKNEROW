@@ -6,7 +6,11 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold flex items-center gap-2 text-gray-700 dark:text-gray-200">Selamat datang, {{ auth()->user()->nama }}</h3>
+            </div>
+            
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow mb-6">
                 <!-- Kartu Statistik -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -70,61 +74,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Grafik -->
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
-                <h3 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                    Grafik Pelanggaran & Penghargaan Tahun {{ date('Y') }}
-                </h3>
-                <canvas id="chartDashboard" height="100"></canvas>
-            </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const ctx = document.getElementById('chartDashboard');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: @json($bulanNama),
-                    datasets: [
-                        {
-                            label: 'Pelanggaran',
-                            data: @json($pelanggaranChart),
-                            backgroundColor: 'rgba(239, 68, 68, 0.8)',
-                        },
-                        {
-                            label: 'Penghargaan',
-                            data: @json($penghargaanChart),
-                            backgroundColor: 'rgba(234, 179, 8, 0.8)',
-                        },
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#fff'
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { color: '#fff' },
-                            grid: { color: 'rgba(255,255,255,0.1)' }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: '#fff' },
-                            grid: { color: 'rgba(255,255,255,0.1)' }
-                        }
-                    }
-                }
-            });
-        </script>
-    @endpush
 </x-app-layout>

@@ -138,6 +138,9 @@
             </x-responsive-nav-link>
 
             @if(Auth::user()->role === 'admin')
+                <x-responsive-nav-link :href="route('admin.rombel.index')" :active="request()->routeIs('admin.rombel.*')">
+                    {{ __('Kelola Rombel') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.guru.index')" :active="request()->routeIs('admin.guru.*')">
                     {{ __('Data Guru') }}
                 </x-responsive-nav-link>
@@ -162,21 +165,32 @@
             @endif
 
             @if(Auth::user()->role === 'guru')
+                <x-responsive-nav-link :href="route('guru.kelas.index')"
+                    :active="request()->routeIs('guru.kelas.*')">
+                    {{ __('Manajemen Kelas') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('guru.pelanggaran.index')"
                     :active="request()->routeIs('guru.pelanggaran.*')">
-                    {{ __('Pelanggaran') }}
+                    {{ __('Input Pelanggaran') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('guru.penghargaan.index')"
+                    :active="request()->routeIs('guru.penghargaan.*')">
+                    {{ __('Input Penghargaan') }}
                 </x-responsive-nav-link>
             @endif
 
             @if(Auth::user()->role === 'siswa')
-                <x-responsive-nav-link :href="route('siswa.dashboard')" :active="request()->routeIs('siswa.*')">
-                    {{ __('Prestasi') }}
+                <x-responsive-nav-link :href="route('siswa.pelanggaran.index')" :active="request()->routeIs('siswa.pelanggaran*')">
+                    {{ __('Riwayat Pelanggaran') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('siswa.penghargaan.index')" :active="request()->routeIs('siswa.penghargaan*')">
+                    {{ __('Riwayat Penghargaan') }}
                 </x-responsive-nav-link>
             @endif
 
             @if(Auth::user()->role === 'ortu')
-                <x-responsive-nav-link :href="route('ortu.dashboard')" :active="request()->routeIs('ortu.*')">
-                    {{ __('Laporan Anak') }}
+                <x-responsive-nav-link :href="route('ortu.riwayat')" :active="request()->routeIs('ortu.riwayat*')">
+                    {{ __('Riwayat Anak') }}
                 </x-responsive-nav-link>
             @endif
         </div>

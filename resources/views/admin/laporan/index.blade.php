@@ -5,11 +5,10 @@
         </h2>
     </x-slot>
 
-    <div class="py-8" x-data="{ tab: '{{ request()->get('tab', 'pelanggaran') }}' }">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+    <div class="py-6 max-w-7xl mx-auto px-6 lg:px-8" x-data="{ tab: '{{ request()->get('tab', 'pelanggaran') }}' }">
 
             {{-- Navigasi Tab --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-4 flex justify-center gap-4">
+            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-4 flex justify-center gap-4 mb-6">
                 <button @click="tab = 'pelanggaran'"
                     :class="tab === 'pelanggaran' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300'"
                     class="px-4 py-2 rounded-lg font-semibold transition">Pelanggaran</button>
@@ -37,6 +36,6 @@
             <div x-show="tab === 'rekap'" x-transition>
                 @include('admin.laporan.partials.rekap')
             </div>
-        </div>
+        </>
     </div>
 </x-app-layout>

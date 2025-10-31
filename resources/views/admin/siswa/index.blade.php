@@ -5,11 +5,11 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
             {{-- Form Import --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
+            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">
                 <label class="block mb-2 font-semibold text-gray-700 dark:text-gray-200">
                     Upload Data Siswa (Excel)
                 </label>

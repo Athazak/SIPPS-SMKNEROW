@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-8" x-data="{ openTambah: false }">
+    <div class="py-6" x-data="{ openTambah: false }">
         {{-- ===== BAGIAN TABEL UTAMA ===== --}}
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" x-data="{ selectedRombel: '' }">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8" x-data="{ selectedRombel: '' }">
             <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">

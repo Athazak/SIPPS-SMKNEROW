@@ -6,7 +6,13 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold flex items-center gap-2 text-gray-700 dark:text-gray-200">
+                    Selamat datang, {{ auth()->user()->nama }}
+                </h3>
+            </div>
+
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow mb-6">
                 <!-- Kartu Statistik -->
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">

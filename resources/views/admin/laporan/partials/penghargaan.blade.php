@@ -49,10 +49,10 @@
 </div>
 
 <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mt-6">
-    <div class="flex justify-between items-center mb-4">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4">
         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Daftar Penghargaan
         </h3>
-        <div>
+        <div class="flex flex-wrap items-center gap-3">
             <a href="{{ route('admin.laporan.cetak', array_merge(request()->all(), ['tab' => 'penghargaan', 'format' => 'pdf'])) }}"
                 class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">Cetak PDF</a>
             <a href="{{ route('admin.laporan.cetak', array_merge(request()->all(), ['tab' => 'penghargaan', 'format' => 'excel'])) }}"

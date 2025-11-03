@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
             {{-- ====== INFORMASI ANAK & LEVEL ====== --}}
             <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">

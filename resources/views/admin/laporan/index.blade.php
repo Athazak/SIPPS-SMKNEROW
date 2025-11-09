@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-6 max-w-7xl mx-auto px-6 lg:px-8" x-data="{ tab: '{{ request()->get('tab', 'pelanggaran') }}' }">
+    <div class="py-6 max-w-7xl mx-auto px-4 lg:px-5" x-data="{ tab: '{{ request()->get('tab', 'pelanggaran') }}' }">
 
             {{-- Navigasi Tab --}}
             <div class="flex justify-center items gap-4 mb-6">

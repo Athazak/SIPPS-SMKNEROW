@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 lg:px-5">
 
             {{-- Form Import --}}
             <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">
@@ -58,6 +58,7 @@
                                 <th class="px-4 py-2 border">JK</th>
                                 <th class="px-4 py-2 border">NISN</th>
                                 <th class="px-4 py-2 border">Username Ortu</th>
+                                <th class="px-4 py-2 border text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,6 +71,28 @@
                                     <td class="px-4 py-2">{{ $item->jenis_kelamin }}</td>
                                     <td class="px-4 py-2">{{ $item->nisn ?? '-' }}</td>
                                     <td class="px-4 py-2 font-mono">{{ $item->ortu->user->username ?? '-' }}</td>
+                                    <td class="px-4 py-2 border text-center flex justify-center items gap-4">
+                                        <form action="{{ route('admin.siswa.reset-password', $item->user->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Reset password untuk {{ $item->user->nama }}?')">
+                                            @csrf
+                                            @method('PUT')
+                                            <x-primary-button
+                                                class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md">
+                                                Reset Siswa
+                                            </x-primary-button>
+                                        </form>
+                                        <form action="{{ route('admin.siswa.reset-password', $item->ortu->user->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Reset password untuk orang tua {{ $item->user->nama }}?')">
+                                            @csrf
+                                            @method('PUT')
+                                            <x-primary-button
+                                                class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md">
+                                                Reset Ortu
+                                            </x-primary-button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>

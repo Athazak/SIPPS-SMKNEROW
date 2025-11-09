@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Imports\SiswaImport;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
@@ -43,5 +45,17 @@ class SiswaController extends Controller
         ]);
 
         return redirect()->route('admin.siswa.index')->with('import_result', $result);
+    }
+
+    public function resetPassword($id)
+    {
+        $user = User::findOrFail($id);
+
+        $defaultPassword = '123456';
+
+        $user->password = Hash::make($defaultPassword);
+        $user->save();
+
+        return back()->with('success', "Password untuk {$user->nama} telah direset ke sandi default: 123456");
     }
 }

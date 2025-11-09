@@ -6,9 +6,9 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 lg:px-5">
             {{-- ====== RIWAYAT PELANGGARAN ====== --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
+            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">
                 <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
                     Riwayat Pelanggaran
                 </h3>

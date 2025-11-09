@@ -18,7 +18,7 @@
 
                     @if(Auth::user()->role === 'admin')
                         <x-nav-link :href="route('admin.rombel.index')" :active="request()->routeIs('admin.rombel.*')">
-                            Kelola Rombel
+                            Kelas
                         </x-nav-link>
                         <x-nav-link :href="route('admin.guru.index')" :active="request()->routeIs('admin.guru.*')">
                             Data Guru
@@ -28,11 +28,11 @@
                         </x-nav-link>
                         <x-nav-link :href="route('admin.pelanggaran.index')"
                             :active="request()->routeIs('admin.pelanggaran.*')">
-                            Kelola Pelanggaran
+                            Pelanggaran
                         </x-nav-link>
                         <x-nav-link :href="route('admin.penghargaan.index')"
                             :active="request()->routeIs('admin.penghargaan.*')">
-                            Kelola Penghargaan
+                            Penghargaan
                         </x-nav-link>
                         <x-nav-link :href="route('admin.penanganan.index')"
                             :active="request()->routeIs('admin.penanganan.*')">
@@ -69,8 +69,7 @@
                     @endif
 
                     @if(Auth::user()->role === 'ortu')
-                        <x-nav-link :href="route('ortu.riwayat')"
-                            :active="request()->routeIs('ortu.riwayat')">
+                        <x-nav-link :href="route('ortu.riwayat')" :active="request()->routeIs('ortu.riwayat')">
                             {{ __('Riwayat Anak') }}
                         </x-nav-link>
                     @endif
@@ -83,7 +82,11 @@
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <!-- Nama pengguna -->
+                            <div class="text-right leading-tight text-gray-700 dark:text-gray-200 text-sm">
+                                <div class="font-semibold">{{ Auth::user()->username }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ Auth::user()->nama }}</div>
+                            </div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +100,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -161,8 +168,7 @@
             @endif
 
             @if(Auth::user()->role === 'guru')
-                <x-responsive-nav-link :href="route('guru.kelas.index')"
-                    :active="request()->routeIs('guru.kelas.*')">
+                <x-responsive-nav-link :href="route('guru.kelas.index')" :active="request()->routeIs('guru.kelas.*')">
                     {{ __('Manajemen Kelas') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('guru.pelanggaran.index')"
@@ -176,10 +182,12 @@
             @endif
 
             @if(Auth::user()->role === 'siswa')
-                <x-responsive-nav-link :href="route('siswa.pelanggaran.index')" :active="request()->routeIs('siswa.pelanggaran*')">
+                <x-responsive-nav-link :href="route('siswa.pelanggaran.index')"
+                    :active="request()->routeIs('siswa.pelanggaran*')">
                     {{ __('Riwayat Pelanggaran') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('siswa.penghargaan.index')" :active="request()->routeIs('siswa.penghargaan*')">
+                <x-responsive-nav-link :href="route('siswa.penghargaan.index')"
+                    :active="request()->routeIs('siswa.penghargaan*')">
                     {{ __('Riwayat Penghargaan') }}
                 </x-responsive-nav-link>
             @endif
@@ -194,11 +202,14 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-gray-800">{{ Auth::user()->nama }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->username }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('profile.edit')">
+                    {{ __('Profile') }}
+                </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

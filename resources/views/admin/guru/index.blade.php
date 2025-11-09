@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 lg:px-5">
 
             {{-- Form Import --}}
             <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6 mb-6">
@@ -41,6 +41,7 @@
                                 <th class="px-4 py-2 border">NIP</th>
                                 <th class="px-4 py-2 border">JK</th>
                                 <th class="px-4 py-2 border">Status Kepegawaian</th>
+                                <th class="px-4 py-2 border">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,6 +54,18 @@
                                     <td class="px-4 py-2">{{ $item->nip ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->jenis_kelamin }}</td>
                                     <td class="px-4 py-2">{{ $item->status_kepegawaian ?? '-' }}</td>
+                                    <td class="px-4 py-2 border text-center">
+                                        <form action="{{ route('admin.guru.reset-password', $item->user->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Reset password untuk {{ $item->user->nama }}?')">
+                                            @csrf
+                                            @method('PUT')
+                                            <x-primary-button
+                                                class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md">
+                                                Reset
+                                            </x-primary-button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>

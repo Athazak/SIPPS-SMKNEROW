@@ -7,7 +7,7 @@
 
     <div class="py-6" x-data="{ openDetail: false, siswa: { nama: '', rombel: '', pelanggaran: [], penghargaan: [] } }">
 
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 lg:px-5">
 
             {{-- Pilih Rombel --}}
             <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">

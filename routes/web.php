@@ -44,9 +44,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('rombel', RombelController::class);
 
     // Import User
+    Route::put('/import/guru/{id}/reset-password', [GuruController::class, 'resetPassword'])
+            ->name('guru.reset-password');
     Route::get('/import/guru', [GuruController::class, 'index'])->name('guru.index');
     Route::post('/import/guru', [GuruController::class, 'import'])->name('guru.import');
 
+    Route::put('/import/siswa/{id}/reset-password', [SiswaController::class, 'resetPassword'])
+            ->name('siswa.reset-password');
     Route::get('/import/siswa', [SiswaController::class, 'index'])->name('siswa.index');
     Route::post('/import/siswa', [SiswaController::class, 'import'])->name('siswa.import');
 

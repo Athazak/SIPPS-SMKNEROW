@@ -54,7 +54,18 @@ class LaporanController extends Controller
         $dataCollection = $siswaQuery->get()->map(function ($siswa) {
             $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
             $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
-            $skorAkhir = $totalPelanggaran - $totalPenghargaan;
+
+            // Pengurangan dari penghargaan hanya berlaku jika total pelanggaran > 75
+            if ($totalPelanggaran > 75) {
+                $skorAkhir = $totalPelanggaran - $totalPenghargaan;
+            } else {
+                $skorAkhir = $totalPelanggaran; // tidak dikurangi
+            }
+
+            if ($skorAkhir < 0) {
+                $skorAkhir = 0; // Tidak boleh minus
+            }
+
             $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
                 ->where('skor_max', '>=', $skorAkhir)
                 ->first();
@@ -166,7 +177,15 @@ class LaporanController extends Controller
             $data = $siswaList->map(function ($siswa) {
                 $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
                 $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
-                $skorAkhir = $totalPelanggaran - $totalPenghargaan;
+                if ($totalPelanggaran > 75) {
+                    $skorAkhir = $totalPelanggaran - $totalPenghargaan;
+                } else {
+                    $skorAkhir = $totalPelanggaran;
+                }
+
+                if ($skorAkhir < 0) {
+                    $skorAkhir = 0; // Tidak boleh minus
+                }
                 $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
                     ->where('skor_max', '>=', $skorAkhir)
                     ->first();

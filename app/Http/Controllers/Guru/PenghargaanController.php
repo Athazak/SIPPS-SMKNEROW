@@ -41,6 +41,10 @@ class PenghargaanController extends Controller
 
         $guru = Auth::user()->guru;
 
+        if (!$guru) {
+            abort(403, 'Akun ini tidak terhubung sebagai guru.');
+        }
+
         // Simpan catatan penghargaan baru
         CatatanPenghargaan::create([
             'id_siswa' => $request->siswa_id,

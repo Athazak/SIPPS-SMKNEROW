@@ -53,7 +53,7 @@
                     <td>{{ $item['total_pelanggaran'] }}</td>
                     <td>{{ $item['total_penghargaan'] }}</td>
                     <td>{{ $item['skor_akhir'] }}</td>
-                    <td>{{ $item['kategori'] }}</td>
+                    <td class="capitalize">{{ $item['kategori'] }}</td>
                     <td>{{ $item['penanganan'] }}</td>
                 </tr>
             @endforeach

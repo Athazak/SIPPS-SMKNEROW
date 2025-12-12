@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
+use App\Models\Penghargaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Siswa;
@@ -41,6 +42,10 @@ class PelanggaranController extends Controller
         ]);
 
         $guru = Auth::user()->guru;
+
+        if (!$guru) {
+            abort(403, 'Akun ini tidak terhubung sebagai guru.');
+        }
 
         // Simpan catatan pelanggaran baru dengan tanggal otomatis
         $catatan = CatatanPelanggaran::create([

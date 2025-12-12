@@ -12,11 +12,27 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class GuruController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $guru = Guru::with('user')->latest()->paginate(10);
+        $search = $request->input('search');
 
-        return view('admin.guru.index', compact('guru'));
+        $guru = Guru::with('user')
+            ->join('users', 'users.id', '=', 'gurus.user_id')
+            ->when($search, function ($query, $search) {
+                return $query->where('users.nama', 'like', "%{$search}%")
+                    ->orWhere('gurus.nip', 'like', "%{$search}%")
+                    ->orWhere('users.username', 'like', "%{$search}%")
+                    ->orWhere('gurus.nuptk', 'like', "%{$search}%");
+            })
+            ->orderBy('users.nama')
+            ->select('gurus.*')
+            ->paginate(10)
+            ->withQueryString();
+
+        // Ambil hasil import seperti di siswa
+        $result = session('import_result');
+
+        return view('admin.guru.index', compact('guru', 'search', 'result'));
     }
 
     public function import(Request $request)
@@ -27,7 +43,14 @@ class GuruController extends Controller
 
         Excel::import(new GuruImport, $request->file('file'));
 
-        return back()->with('success', 'Import guru berhasil diproses (chunk). Username = 6 digit tanggal lahir, password = 123456');
+        // Ambil hasil import dari GuruImport
+        $result = session('import_result', [
+            'total' => 0,
+            'inserted' => 0,
+            'skipped' => 0,
+        ]);
+
+        return redirect()->route('admin.guru.index')->with('import_result', $result);
     }
 
     public function resetPassword($id)

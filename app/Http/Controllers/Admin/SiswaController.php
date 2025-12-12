@@ -14,17 +14,24 @@ class SiswaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Siswa::with(['user', 'rombel', 'ortu.user']);
+        $search = $request->input('search');
 
-        if ($search = $request->input('search')) {
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%")
-                    ->orWhere('username', 'like', "%{$search}%");
+        $siswas = Siswa::with(['user', 'rombel', 'ortu.user'])
+            ->join('users', 'users.id', '=', 'siswas.user_id') // user siswa
+            ->leftJoin('ortus', 'ortus.siswa_id', '=', 'siswas.id') // tabel ortu
+            ->leftJoin('users as ortu_users', 'ortu_users.id', '=', 'ortus.user_id') // user ortu
+            ->when($search, function ($query, $search) {
+                return $query
+                    ->where('users.nama', 'like', "%{$search}%")          // nama siswa
+                    ->orWhere('users.username', 'like', "%{$search}%")    // username siswa
+                    ->orWhere('siswas.nisn', 'like', "%{$search}%")       // nisn siswa
+                    ->orWhere('ortu_users.username', 'like', "%{$search}%"); // username orangtua
             })
-                ->orWhere('nisn', 'like', "%{$search}%");
-        }
+            ->orderBy('users.nama')
+            ->select('siswas.*')
+            ->paginate(10)
+            ->withQueryString();
 
-        $siswas = $query->latest()->paginate(10)->withQueryString();
         $result = session('import_result');
 
         return view('admin.siswa.index', compact('siswas', 'search', 'result'));

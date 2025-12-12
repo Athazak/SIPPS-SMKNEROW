@@ -48,7 +48,7 @@ class PelanggaranController extends Controller
             'id_guru' => $guru->id,
             'id_pelanggaran' => $request->pelanggaran_id,
             'keterangan' => $request->keterangan,
-            'tanggal' => now(), // ✅ tanggal otomatis
+            'tanggal' => now(),
         ]);
 
         // Hitung ulang total skor siswa

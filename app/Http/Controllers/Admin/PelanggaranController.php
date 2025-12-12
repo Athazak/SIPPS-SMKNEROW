@@ -8,9 +8,25 @@ use Illuminate\Http\Request;
 
 class PelanggaranController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pelanggarans = Pelanggaran::latest()->paginate(10);
+        $query = Pelanggaran::query();
+
+        // Jika ada parameter search, lakukan filter
+        if ($request->has('search') && $request->search !== '') {
+            $search = $request->search;
+
+            $query->where('jenis_pelanggaran', 'like', "%$search%")
+                ->orWhere('bentuk', 'like', "%$search%")
+                ->orWhere('skor', 'like', "%$search%");
+        }
+
+        $pelanggarans = $query->orderBy('jenis_pelanggaran')
+            ->orderBy('bentuk')
+            ->orderBy('skor')
+            ->paginate(10)
+            ->withQueryString();
+
         return view('admin.pelanggaran.index', compact('pelanggarans'));
     }
 

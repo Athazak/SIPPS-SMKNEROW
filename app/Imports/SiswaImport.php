@@ -18,10 +18,16 @@ class SiswaImport implements ToCollection
         // Lewati 6 baris pertama (header dan info sekolah)
         $rows = $rows->skip(6);
 
+        $total = 0;
+        $inserted = 0;
+        $skipped = 0;
+
         foreach ($rows as $row) {
-            if (!$row[1]) {
-                continue; // Lewati baris kosong
-            }
+
+            if (!$row[1])
+                continue;
+
+            $total++;
 
             $nama = trim($row[1]);
             $nipd = $row[2];
@@ -31,22 +37,28 @@ class SiswaImport implements ToCollection
             $tglLahir = Carbon::parse($row[7]);
 
             // --- Normalisasi nama rombel dari Excel agar cocok dengan DB ---
-            $rombelFormatted = str_replace('-', ' ', $rombelNama);
-            $rombelFormatted = preg_replace('/([A-Z]+)(\d+)/', '$1 $2', $rombelFormatted);
-            $rombel = Rombel::where('nama_rombel', $rombelFormatted)->first();
+            $formatted = str_replace('-', ' ', $rombelNama);
+            $formatted = preg_replace('/([A-Z]+)(\d+)/', '$1 $2', $formatted);
+            $rombel = Rombel::where('nama_rombel', $formatted)->first();
+
+            $exists = Siswa::where('nisn', $nisn)
+                ->orWhere('nipd', $nipd)
+                ->exists();
+
+            if ($exists) {
+                $skipped++;
+                continue;
+            }
 
             // --- Generate username siswa ---
             $namaParts = explode(' ', $nama);
             $inisial = '';
-
             for ($i = 0; $i < min(3, count($namaParts)); $i++) {
                 $inisial .= strtolower(substr($namaParts[$i], 0, 1));
             }
-
             if (strlen($inisial) < 3) {
                 $inisial = strtolower(substr(str_replace(' ', '', $nama), 0, 3));
             }
-
             // username siswa = inisial + ddmmyy
             $usernameSiswa = $inisial . $tglLahir->format('dmy');
 
@@ -77,11 +89,11 @@ class SiswaImport implements ToCollection
 
             // --- Generate akun orang tua otomatis ---
             $usernameOrtu = 'O' . strtoupper($usernameSiswa);
-            $originalOrtuUsername = $usernameOrtu;
+            $originalOrtu = $usernameOrtu;
             $counterOrtu = 1;
 
             while (User::where('username', $usernameOrtu)->exists()) {
-                $usernameOrtu = $originalOrtuUsername . $counterOrtu;
+                $usernameOrtu = $originalOrtu . $counterOrtu;
                 $counterOrtu++;
             }
 
@@ -97,6 +109,16 @@ class SiswaImport implements ToCollection
                 'user_id' => $userOrtu->id,
                 'siswa_id' => $siswa->id,
             ]);
+
+            $inserted++;
         }
+
+        session([
+            'import_result' => [
+                'total' => $total,
+                'inserted' => $inserted,
+                'skipped' => $skipped,
+            ]
+        ]);
     }
 }

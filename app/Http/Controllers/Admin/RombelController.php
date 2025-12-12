@@ -8,9 +8,26 @@ use Illuminate\Http\Request;
 
 class RombelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $rombels = Rombel::orderBy('tingkat')->orderBy('jurusan')->orderBy('nama_rombel')->paginate(10);
+        $query = Rombel::query();
+
+        // Jika ada parameter search, lakukan filter
+        if ($request->has('search') && $request->search !== '') {
+            $search = $request->search;
+
+            $query->where('tingkat', 'like', "%$search%")
+                ->orWhere('jurusan', 'like', "%$search%")
+                ->orWhere('nama_rombel', 'like', "%$search%");
+        }
+
+        // Urutkan dan paginasi
+        $rombels = $query->orderBy('tingkat')
+            ->orderBy('jurusan')
+            ->orderBy('nama_rombel')
+            ->paginate(10)
+            ->withQueryString(); // Menjaga query search tetap ada ketika pindah halaman
+
         return view('admin.rombel.index', compact('rombels'));
     }
 
@@ -25,11 +42,6 @@ class RombelController extends Controller
         Rombel::create($request->only('tingkat', 'jurusan', 'nama_rombel'));
 
         return redirect()->route('admin.rombel.index')->with('success', 'Rombel berhasil ditambahkan.');
-    }
-
-    public function show(string $id)
-    {
-        //
     }
 
     public function update(Request $request, Rombel $rombel)

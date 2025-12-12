@@ -11,6 +11,7 @@ use App\Models\Penghargaan;
 use App\Models\CatatanPelanggaran;
 use App\Models\CatatanPenghargaan;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,6 @@ class DashboardController extends Controller
         $total = [
             'guru' => Guru::count(),
             'siswa' => Siswa::count(),
-            'rombel' => Rombel::count(),
             'pelanggaran' => Pelanggaran::count(),
             'penghargaan' => Penghargaan::count(),
         ];
@@ -50,6 +50,28 @@ class DashboardController extends Controller
             $penghargaanChart[] = $penghargaanPerBulan[$i] ?? 0;
         }
 
-        return view('admin.dashboard', compact('total', 'bulanNama', 'pelanggaranChart', 'penghargaanChart'));
+        $bulan = collect(range(1, 12))->map(function ($i) {
+            return Carbon::create()->month($i)->format('M');
+        });
+
+        $pelanggaranPerBulan = collect(range(1, 12))->map(function ($i) {
+            return Pelanggaran::whereMonth('created_at', $i)->count();
+        });
+
+        $penghargaanPerBulan = collect(range(1, 12))->map(function ($i) {
+            return Penghargaan::whereMonth('created_at', $i)->count();
+        });
+
+        $pelanggaranTerbaru = CatatanPelanggaran::with('siswa.user')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        $penghargaanTerbaru = CatatanPenghargaan::with('siswa.user')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('admin.dashboard', compact('total', 'bulanNama', 'pelanggaranChart', 'penghargaanChart', 'bulan', 'pelanggaranPerBulan', 'penghargaanPerBulan', 'pelanggaranTerbaru', 'penghargaanTerbaru'));
     }
 }

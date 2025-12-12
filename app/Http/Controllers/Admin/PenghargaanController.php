@@ -8,9 +8,25 @@ use Illuminate\Http\Request;
 
 class PenghargaanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $penghargaans = Penghargaan::latest()->paginate(10);
+        $query = Penghargaan::query();
+
+        // Jika ada parameter search, lakukan filter
+        if ($request->has('search') && $request->search !== '') {
+            $search = $request->search;
+
+            $query->where('bentuk', 'like', "%$search%")
+                ->orWhere('kriteria', 'like', "%$search%")
+                ->orWhere('skor', 'like', "%$search%");
+        }
+
+        $penghargaans = $query->orderBy('bentuk')
+            ->orderBy('kriteria')
+            ->orderBy('skor')
+            ->paginate(10)
+            ->withQueryString();
+
         return view('admin.penghargaan.index', compact('penghargaans'));
     }
 

@@ -55,16 +55,7 @@ class LaporanController extends Controller
             $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
             $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
 
-            // Pengurangan dari penghargaan hanya berlaku jika total pelanggaran > 75
-            if ($totalPelanggaran > 75) {
-                $skorAkhir = $totalPelanggaran - $totalPenghargaan;
-            } else {
-                $skorAkhir = $totalPelanggaran; // tidak dikurangi
-            }
-
-            if ($skorAkhir < 0) {
-                $skorAkhir = 0; // Tidak boleh minus
-            }
+            $skorAkhir = $siswa->hitungSkorAkhir();
 
             $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
                 ->where('skor_max', '>=', $skorAkhir)
@@ -167,7 +158,12 @@ class LaporanController extends Controller
         }
 
         if ($tab === 'rekap') {
-            $siswaQuery = Siswa::with(['user', 'rombel']);
+            $siswaQuery = Siswa::with([
+                'user',
+                'rombel',
+                'catatanPelanggarans.pelanggaran',
+                'catatanPenghargaans.penghargaan'
+            ]);
             if ($request->filled('rombel_id')) {
                 $siswaQuery->where('rombel_id', $request->rombel_id);
             }
@@ -177,15 +173,8 @@ class LaporanController extends Controller
             $data = $siswaList->map(function ($siswa) {
                 $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
                 $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
-                if ($totalPelanggaran > 75) {
-                    $skorAkhir = $totalPelanggaran - $totalPenghargaan;
-                } else {
-                    $skorAkhir = $totalPelanggaran;
-                }
-
-                if ($skorAkhir < 0) {
-                    $skorAkhir = 0; // Tidak boleh minus
-                }
+                $skorAkhir = $siswa->hitungSkorAkhir();
+                
                 $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
                     ->where('skor_max', '>=', $skorAkhir)
                     ->first();

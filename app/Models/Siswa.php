@@ -35,4 +35,21 @@ class Siswa extends Model
     {
         return $this->hasMany(CatatanPenghargaan::class, 'id_siswa');
     }
+
+    public function hitungSkorAkhir()
+{
+    $totalPelanggaran = $this->catatanPelanggarans
+        ->sum(fn($c) => $c->pelanggaran->skor ?? 0);
+
+    $totalPenghargaan = $this->catatanPenghargaans
+        ->sum(fn($c) => $c->penghargaan->skor ?? 0);
+
+    if ($totalPelanggaran > 75) {
+        $skor = $totalPelanggaran - $totalPenghargaan;
+    } else {
+        $skor = $totalPelanggaran;
+    }
+
+    return max(0, $skor);
+}
 }

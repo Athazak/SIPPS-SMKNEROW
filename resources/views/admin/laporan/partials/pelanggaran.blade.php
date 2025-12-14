@@ -1,9 +1,6 @@
 {{-- ====================== FILTER CARD ====================== --}}
 <div class="bg-white shadow rounded-xl px-4 py-3 mb-3 border border-gray-100">
     <div class="flex justify-between items-center mb-2">
-        <h3 class="text-lg font-semibold text-gray-600">
-            Filter Data Pelanggaran
-        </h3>
     </div>
 
     <form method="GET" action="{{ route('admin.laporan.index') }}" class="grid md:grid-cols-4 gap-4">
@@ -25,7 +22,7 @@
 
         {{-- Rombel --}}
         <div>
-            <label class="block text-sm font-medium text-gray-700">Rombel</label>
+            <label class="block text-sm font-medium text-gray-700">Kelas</label>
             <select name="rombel_id"
                 class="w-full mt-1 border-gray-300 rounded-xl px-3 py-2 focus:ring-[#512AD5] focus:border-[#512AD5]">
                 <option value="">Semua</option>

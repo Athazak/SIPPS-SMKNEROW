@@ -131,7 +131,7 @@
             {{-- TEXT --}}
             <div class="flex flex-col">
                 <span class="font-semibold text-gray-800 leading-tight">
-                    {{ Auth::user()->nama }}
+                    {{ ucwords(strtolower(Auth::user()->nama)) }}
                 </span>
                 <div>
                     <span class="text-sm text-gray-500 -mt-0.5">

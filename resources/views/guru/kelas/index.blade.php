@@ -5,89 +5,112 @@
         </h2>
     </x-slot>
 
-    <div class="py-6" x-data="{ openDetail: false, siswa: { nama: '', rombel: '', pelanggaran: [], penghargaan: [] } }">
+    <div class="py-1" x-data="{ openDetail: false, siswa: { nama: '', rombel: '', pelanggaran: [], penghargaan: [] } }">
 
-        <div class="max-w-7xl mx-auto px-4 lg:px-5">
+        <div class="max-w-7xl mx-auto px-3 lg:px-4">
+
+            {{-- ====================== SUBHEADER ====================== --}}
+            <div class="rounded-2xl shadow px-4 py-4 mb-3 flex items-center bg-white text-white">
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-bold text-[#2A166F]">Manajemen Kelas</h1>
+                    <p class="text-gray-600 mt-1 text-sm">
+                        Menampilkan daftar siswa per kelas beserta rekap pelanggaran dan penghargaan.
+                    </p>
+                </div>
+            </div>
 
             {{-- Pilih Rombel --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Pilih Rombel</h3>
+            <div class="bg-white shadow rounded-xl px-4 py-2 mb-3 border border-gray-100">
+                <div class="flex justify-between items-center">
                 </div>
 
-                <form method="GET" action="{{ route('guru.kelas.index') }}" class="flex gap-4">
-                    <select name="rombel_id"
-                        class="w-1/3 border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-gray-200">
-                        <option value="">-- Pilih Rombel --</option>
-                        @foreach ($rombels as $rombel)
-                            <option value="{{ $rombel->id }}" {{ $selectedRombel == $rombel->id ? 'selected' : '' }}>
-                                {{ $rombel->nama_rombel }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <button type="submit"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                        Tampilkan
-                    </button>
+                <form method="GET" action="{{ route('guru.kelas.index') }}"
+                    class="flex flex-col md:flex-row md:items-end gap-2">
+                    {{-- Filter Kelas --}}
+                    <div class="w-full md:w-100">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label>
+                        <select name="rombel_id"
+                            class="w-full border-gray-300 rounded-xl px-3 py-2 focus:ring-[#512AD5] focus:border-[#512AD5]">
+                            <option value="">Pilih Kelas</option>
+                            @foreach ($rombels as $rombel)
+                                <option value="{{ $rombel->id }}" {{ $selectedRombel == $rombel->id ? 'selected' : '' }}>
+                                    {{ $rombel->nama_rombel }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- Tombol --}}
+                    <div>
+                        <button type="submit"
+                            class="w-full md:w-auto px-4 py-2 rounded-xl bg-[#512AD5] hover:bg-[#2A166F] text-white transition">
+                            Tampilkan
+                        </button>
+                    </div>
                 </form>
             </div>
 
             {{-- Daftar Siswa --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        @if ($selectedRombel)
-                            Daftar Siswa - {{ $rombels->firstWhere('id', $selectedRombel)?->nama_rombel }}
-                        @else
-                            Daftar Siswa
-                        @endif
-                    </h3>
-                </div>
+            <div class="bg-white shadow rounded-xl px-4 py-2 mb-3 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">
+                    @if ($selectedRombel)
+                        Daftar Siswa - {{ $rombels->firstWhere('id', $selectedRombel)?->nama_rombel }}
+                    @else
+                        Daftar Siswa
+                    @endif
+                </h3>
 
                 @if ($selectedRombel)
                     <div class="overflow-x-auto">
-                        <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
-                            <thead class="bg-gray-200 dark:bg-gray-700">
-                                <tr>
-                                    <th class="py-2 px-3">#</th>
-                                    <th class="py-2 px-3">Nama Siswa</th>
-                                    <th class="py-2 px-3 text-center">Skor Pelanggaran</th>
-                                    <th class="py-2 px-3 text-center">Skor Penghargaan</th>
-                                    <th class="py-2 px-3 text-center">Skor Akhir</th>
-                                    <th class="py-2 px-3 text-center">Aksi</th>
+                        <table class="min-w-full text-sm text-left">
+                            <thead>
+                                <tr class="bg-[#F4F5FF] text-[#2A166F] border-b">
+                                    <th class="px-4 py-2 font-semibold">#</th>
+                                    <th class="px-4 py-2 font-semibold">Nama Siswa</th>
+                                    <th class="px-4 py-2 font-semibold text-center">Skor Pelanggaran</th>
+                                    <th class="px-4 py-2 font-semibold text-center">Skor Penghargaan</th>
+                                    <th class="px-4 py-2 font-semibold text-center">Skor Akhir</th>
+                                    <th class="px-4 py-2 font-semibold text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($siswaList as $index => $item)
-                                    <tr
-                                        class="border-b border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                                        <td class="py-2 px-3">{{ $index + 1 }}</td>
-                                        <td class="py-2 px-3">{{ $item['nama'] }}</td>
-                                        <td class="py-2 px-3 text-center text-red-600 font-semibold">
-                                            {{ $item['total_pelanggaran'] }}
+                                    <tr class="border-b hover:bg-gray-50 transition">
+                                        <td class="px-4 py-2">{{ $index + 1 }}</td>
+                                        <td class="px-4 py-2 font-medium">{{ $item['nama'] }}</td>
+                                        <td class="px-4 py-2 text-center">
+                                            <span
+                                                class="bg-[#FEE2E2] text-[#B91C1C] px-3 py-1 rounded-full text-xs font-semibold">
+                                                {{ $item['total_pelanggaran'] }}
+                                            </span>
                                         </td>
-                                        <td class="py-2 px-3 text-center text-green-600 font-semibold">
-                                            {{ $item['total_penghargaan'] }}
+                                        <td class="px-4 py-2 text-center">
+                                            <span
+                                                class="bg-[#FFF4D6] text-[#D97706] px-3 py-1 rounded-full text-xs font-semibold">
+                                                {{ $item['total_penghargaan'] }}
+                                            </span>
                                         </td>
-                                        <td class="py-2 px-3 text-center font-bold">
-                                            {{ $item['skor_akhir'] }}
+                                        <td class="px-4 py-2 text-center">
+                                            <span
+                                                class="bg-[#E0F2FE] text-[#0092DF] px-3 py-1 rounded-full text-xs font-semibold">
+                                                {{ $item['skor_akhir'] }}
+                                            </span>
                                         </td>
-                                        <td class="py-2 px-3 text-center">
-                                            <button @click="
-                                                                    fetch(`/guru/kelas/{{ $item['id'] }}`)
-                                                                        .then(res => res.json())
-                                                                        .then(data => {
-                                                                            siswa = data;
-                                                                            openDetail = true;
-                                                                        });
-                                                                " class="text-blue-600 hover:underline font-medium">
-                                                Detail
+                                        <td class="px-4 py-2 text-center">
+                                            <button
+                                                @click="fetch(`/guru/kelas/{{ $item['id'] }}`) .then(res => res.json()) .then(data => { siswa = data; openDetail = true; });"
+                                                class="inline-flex items-center justify-center w-6 h-6 rounded-lg text-xs font-medium bg-blue-500 text-white border border-blue-600 hover:bg-blue-600 hover:shadow transition">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12z" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
                                             </button>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center py-4 text-gray-500">
+                                        <td colspan="5" class="py-5 text-center text-gray-500">
                                             Tidak ada data siswa ditemukan.
                                         </td>
                                     </tr>
@@ -96,28 +119,28 @@
                         </table>
                     </div>
                     <div class="mt-4">
-                        {{ $siswaList->appends(request()->all())->links() }}
+                        {{ $siswaList->appends(request()->all())->links('vendor.pagination.simple-modern') }}
                     </div>
                 @else
-                    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-lg">
-                        <p>Silakan pilih rombel terlebih dahulu untuk melihat daftar siswa.</p>
+                    <div class="bg-yellow-100 text-yellow-800 p-4 rounded-lg">
+                        <p>Silakan pilih kelas terlebih dahulu untuk melihat daftar siswa.</p>
                     </div>
                 @endif
             </div>
 
             {{-- Modal Detail Siswa --}}
             <x-modal title="Detail Siswa" show="openDetail">
-                <div class="space-y-4">
+                <div class="mb-4">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100" x-text="siswa.nama"></h3>
                         <p class="text-sm text-gray-600 dark:text-gray-300">
                             Rombel: <span x-text="siswa.rombel"></span> |
                             Skor Total:
-                            <span x-text="siswa.total_pelanggaran - siswa.total_penghargaan"></span>
+                            <span x-text="siswa.skor_akhir"></span>
                         </p>
                     </div>
 
-                    <div>
+                    <div class="overflow-x-auto mb-2">
                         <h4 class="font-semibold text-gray-700 dark:text-gray-200 mb-2">Riwayat Pelanggaran</h4>
                         <template x-if="siswa.riwayat_pelanggaran?.length">
                             <table class="w-full border text-sm">
@@ -146,7 +169,7 @@
                         </template>
                     </div>
 
-                    <div>
+                    <div class="overflow-x-auto">
                         <h4 class="font-semibold text-gray-700 dark:text-gray-200 mb-2">Riwayat Penghargaan</h4>
                         <template x-if="siswa.riwayat_penghargaan?.length">
                             <table class="w-full border text-sm">
@@ -175,12 +198,12 @@
                         </template>
                     </div>
 
-                    <div class="flex justify-end mt-4">
-                        <button type="button" @click="openDetail = false"
-                            class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
-                            Tutup
-                        </button>
-                    </div>
+                </div>
+                <div class="flex justify-end space-x-2 mt-6">
+                    <button type="button" @click="openDetail = false"
+                        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+                        Tutup
+                    </button>
                 </div>
             </x-modal>
 

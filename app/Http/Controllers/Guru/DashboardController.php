@@ -13,52 +13,47 @@ class DashboardController extends Controller
     {
         $guru = Auth::user()->guru;
 
-        // Ambil semua catatan yang dibuat oleh guru ini
-        $pelanggaranList = CatatanPelanggaran::with(['siswa.user'])
+        $totalPelanggaran = CatatanPelanggaran::where('id_guru', $guru->id)->count();
+        $totalPenghargaan = CatatanPenghargaan::where('id_guru', $guru->id)->count();
+
+        /**
+         * =========================
+         * Rekap Siswa
+         * =========================
+         * Menampilkan siswa yang PERNAH dicatat oleh guru ini,
+         * dengan jumlah pelanggaran & penghargaan (bukan skor).
+         */
+        $siswaPelanggaran = CatatanPelanggaran::with('siswa.user', 'siswa.rombel')
             ->where('id_guru', $guru->id)
-            ->get();
+            ->get()
+            ->pluck('siswa');
 
-        $penghargaanList = CatatanPenghargaan::with(['siswa.user'])
+        $siswaPenghargaan = CatatanPenghargaan::with('siswa.user', 'siswa.rombel')
             ->where('id_guru', $guru->id)
-            ->get();
+            ->get()
+            ->pluck('siswa');
 
-        // Hitung total
-        $totalPelanggaran = $pelanggaranList->sum(fn($p) => $p->pelanggaran->skor ?? 0);
-        $totalPenghargaan = $penghargaanList->sum(fn($h) => $h->penghargaan->skor ?? 0);
-        $totalSkor = $totalPelanggaran - $totalPenghargaan;
-
-        // Gabungkan rekap per siswa
-        $dataSiswa = $pelanggaranList
-            ->pluck('siswa')
-            ->merge($penghargaanList->pluck('siswa'))
+        $dataSiswa = $siswaPelanggaran
+            ->merge($siswaPenghargaan)
             ->unique('id')
             ->map(function ($siswa) use ($guru) {
-                $totalPelanggaran = $siswa->catatanPelanggarans()
-                    ->where('id_guru', $guru->id)
-                    ->with('pelanggaran')
-                    ->get()
-                    ->sum(fn($p) => $p->pelanggaran->skor ?? 0);
-
-                $totalPenghargaan = $siswa->catatanPenghargaans()
-                    ->where('id_guru', $guru->id)
-                    ->with('penghargaan')
-                    ->get()
-                    ->sum(fn($h) => $h->penghargaan->skor ?? 0);
-
                 return [
                     'nama' => $siswa->user->nama,
                     'rombel' => $siswa->rombel->nama_rombel ?? '-',
-                    'total_pelanggaran' => $totalPelanggaran,
-                    'total_penghargaan' => $totalPenghargaan,
-                    'skor_akhir' => $totalPelanggaran - $totalPenghargaan,
+                    'total_pelanggaran' => $siswa->catatanPelanggarans()
+                        ->where('id_guru', $guru->id)
+                        ->count(),
+                    'total_penghargaan' => $siswa->catatanPenghargaans()
+                        ->where('id_guru', $guru->id)
+                        ->count(),
                 ];
-            })->values();
+            })
+            ->values();
 
         return view('guru.dashboard', compact(
-            'dataSiswa',
             'totalPelanggaran',
             'totalPenghargaan',
-            'totalSkor'
+            'dataSiswa'
         ));
     }
 }

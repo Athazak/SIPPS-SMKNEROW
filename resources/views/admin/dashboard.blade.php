@@ -17,7 +17,7 @@
                     <h2 class="text-2xl font-bold leading-tight">
                         Selamat Datang,
                         <span class="font-extrabold text-[#FFF601]">
-                            {{ auth()->user()->nama }}
+                            {{ ucwords(strtolower(auth()->user()->nama)) }}
                         </span>
                     </h2>
                 </div>

@@ -1,17 +1,15 @@
 {{-- ====================== FILTER CARD ====================== --}}
 <div class="bg-white shadow rounded-xl px-4 py-3 mb-3 border border-gray-100">
-    <div class="flex justify-between items-center mb-2">
-        <h3 class="text-lg font-semibold text-gray-600">Filter Rekap</h3>
+    <div class="flex justify-between items-center">
     </div>
 
-    <form method="GET" action="{{ route('admin.laporan.index') }}" class="grid md:grid-cols-1 gap-4">
+    <form method="GET" action="{{ route('admin.laporan.index') }}" class="flex flex-col md:flex-row md:items-end gap-2">
         <input type="hidden" name="tab" value="rekap">
 
-        {{-- Rombel --}}
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Rombel</label>
-            <select name="rombel_id"
-                class="w-full mt-1 border-gray-300 rounded-xl px-3 py-2 focus:ring-[#512AD5] focus:border-[#512AD5]">
+        {{-- Filter Kelas --}}
+        <div class="w-full md:w-100">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+            <select name="rombel_id" class="w-full border-gray-300 rounded-xl px-3 py-2 focus:ring-[#512AD5] focus:border-[#512AD5]">
                 <option value="">Semua</option>
                 @foreach ($rombels as $rombel)
                     <option value="{{ $rombel->id }}" {{ request('rombel_id') == $rombel->id ? 'selected' : '' }}>
@@ -21,13 +19,9 @@
             </select>
         </div>
 
-        <div class="md:col-span-4 flex justify-end gap-3 ">
-            <a href="{{ route('admin.laporan.index', ['tab' => 'rekap']) }}"
-                class="px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400">
-                Reset
-            </a>
-
-            <button type="submit" class="px-4 py-2 rounded-xl bg-[#512AD5] hover:bg-[#2A166F] text-white transition">
+        {{-- Tombol --}}
+        <div>
+            <button type="submit" class="w-full md:w-auto px-4 py-2 rounded-xl bg-[#512AD5] hover:bg-[#2A166F] text-white transition">
                 Tampilkan
             </button>
         </div>
@@ -81,7 +75,7 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             <span
-                                class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs font-semibold">{{ $item['skor_akhir'] }}
+                                class="bg-[#E0F2FE] text-[#0092DF] px-3 py-1 rounded-full text-xs font-semibold">{{ $item['skor_akhir'] }}
                             </span>
                         </td>
                         <td class="px-4 py-2 text-center capitalize font-medium">{{ $item['kategori'] }}</td>

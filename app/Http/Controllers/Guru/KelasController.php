@@ -24,13 +24,14 @@ class KelasController extends Controller
                 ->map(function ($siswa) {
                     $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
                     $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
+                    $skorAkhir = $siswa->hitungSkorAkhir();
                     return [
                         'id' => $siswa->id,
                         'nama' => $siswa->user->nama,
                         'rombel' => $siswa->rombel->nama_rombel,
                         'total_pelanggaran' => $totalPelanggaran,
                         'total_penghargaan' => $totalPenghargaan,
-                        'skor_akhir' => $totalPelanggaran - $totalPenghargaan,
+                        'skor_akhir' => $skorAkhir,
                     ];
                 });
 
@@ -64,8 +65,7 @@ class KelasController extends Controller
             'id' => $siswa->id,
             'nama' => $siswa->user->nama,
             'rombel' => $siswa->rombel->nama_rombel,
-            'total_pelanggaran' => $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0),
-            'total_penghargaan' => $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0),
+            'skor_akhir' => $siswa->hitungSkorAkhir(),
             'riwayat_pelanggaran' => $siswa->catatanPelanggarans->map(fn($c) => [
                 'tanggal' => $c->tanggal,
                 'jenis' => $c->pelanggaran->jenis_pelanggaran ?? '-',

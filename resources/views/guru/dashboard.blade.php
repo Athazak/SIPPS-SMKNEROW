@@ -9,8 +9,8 @@
         <div class="max-w-7xl mx-auto px-3 lg:px-4">
 
             <!-- Header Welcome -->
-            <div class="rounded-2xl shadow-lg px-4 py-4 mb-3 flex items-center
-                       bg-gradient-to-r from-[#2A166F] to-[#512AD5] text-white">
+            <div
+                class="rounded-2xl shadow-lg px-4 py-4 mb-3 flex items-center bg-gradient-to-r from-[#2A166F] to-[#0092DF] text-white">
                 <div class="flex flex-col">
                     <p class="text-sm opacity-80 tracking-wide">Guru</p>
                     <h2 class="text-2xl font-bold leading-tight">
@@ -23,7 +23,20 @@
             </div>
 
             <!-- Statistik -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                <!-- Siswa -->
+                <div class="px-3 py-3 bg-[#0092DF] text-white rounded-xl shadow
+                            flex items-center gap-3 hover:scale-[1.04]
+                            hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <div class="p-2 bg-white/20 rounded-lg">
+                        <x-heroicon-o-academic-cap class="w-6 h-6" />
+                    </div>
+                    <div>
+                        <p class="text-xs opacity-80">Jumlah Siswa Dicatat</p>
+                        <p class="text-lg font-bold">{{ $totalSiswaDicatat }}</p>
+                    </div>
+                </div>
+
                 <!-- Pelanggaran -->
                 <div class="px-3 py-3 bg-[#DB261D] text-white rounded-xl shadow
                             flex items-center gap-3 hover:scale-[1.04]
@@ -41,7 +54,7 @@
                 <div class="px-3 py-3 bg-[#FFF601] text-black rounded-xl shadow
                             flex items-center gap-3 hover:scale-[1.04]
                             hover:-translate-y-1 hover:shadow-lg transition-all">
-                    <div class="p-2 bg-[#2A166F]/20 rounded-lg">
+                    <div class="p-2 bg-black/20 rounded-lg">
                         <x-heroicon-o-star class="w-6 h-6 text-black" />
                     </div>
                     <div>

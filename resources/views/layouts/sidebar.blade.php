@@ -89,16 +89,10 @@
 
             {{-- SISWA --}}
             @if(Auth::user()->role === 'siswa')
-                <a href="{{ route('siswa.pelanggaran.index') }}"
+                <a href="{{ route('siswa.riwayat.index') }}"
                     class="block px-4 py-2.5 rounded hover:bg-gray-100
-                                                {{ request()->routeIs('siswa.pelanggaran.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                    Riwayat Pelanggaran
-                </a>
-
-                <a href="{{ route('siswa.penghargaan.index') }}"
-                    class="block px-4 py-2.5 rounded hover:bg-gray-100
-                                                {{ request()->routeIs('siswa.penghargaan.*') ? 'bg-gray-200 font-semibold' : '' }}">
-                    Riwayat Penghargaan
+                                                {{ request()->routeIs('siswa.riwayat.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                    Riwayat Saya
                 </a>
             @endif
 

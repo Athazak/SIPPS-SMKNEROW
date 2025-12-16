@@ -63,10 +63,10 @@
 
 {{-- ====================== TABLE WRAPPER ====================== --}}
 <div class="bg-white shadow rounded-xl px-4 py-3 mb-3 border border-gray-100">
-    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-2">
+    <div class="flex flex-col sm:flex-row justify-between gap-2">
         <h3 class="text-lg font-semibold text-gray-600">Catatan Pelanggaran</h3>
 
-        <div class="flex sm:flex-row sm:items-center gap-2">
+        <div class="flex sm:flex-row sm:items-center gap-2 mb-3">
             <a href="{{ route('admin.laporan.cetak', array_merge(request()->all(), ['tab' => 'pelanggaran', 'format' => 'pdf'])) }}"
                 class="px-3 py-2 text-sm rounded-lg bg-[#D97706] hover:bg-[#b56504] text-white transition">
                 Cetak PDF

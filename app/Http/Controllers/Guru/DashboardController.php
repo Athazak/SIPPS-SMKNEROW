@@ -15,6 +15,7 @@ class DashboardController extends Controller
 
         $totalPelanggaran = CatatanPelanggaran::where('id_guru', $guru->id)->count();
         $totalPenghargaan = CatatanPenghargaan::where('id_guru', $guru->id)->count();
+        $totalSiswaDicatat = CatatanPenghargaan::where('id_guru', $guru->id)->count();
 
         /**
          * =========================
@@ -53,6 +54,7 @@ class DashboardController extends Controller
         return view('guru.dashboard', compact(
             'totalPelanggaran',
             'totalPenghargaan',
+            'totalSiswaDicatat',
             'dataSiswa'
         ));
     }

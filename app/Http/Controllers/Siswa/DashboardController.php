@@ -16,17 +16,16 @@ class DashboardController extends Controller
         $siswa = $user->siswa;
 
         // Total skor
-        $totalPelanggaran = CatatanPelanggaran::where('id_siswa', $siswa->id)
-            ->with('pelanggaran')
-            ->get()
-            ->sum(fn($c) => $c->pelanggaran->skor ?? 0);
+        $totalPelanggaran = CatatanPelanggaran::where('id_siswa', $siswa->id)->count();
+        $totalPenghargaan = CatatanPenghargaan::where('id_siswa', $siswa->id)->count();
+        $skorAkhir = $siswa->hitungSkorAkhir();
 
-        $totalPenghargaan = CatatanPenghargaan::where('id_siswa', $siswa->id)
-            ->with('penghargaan')
-            ->get()
-            ->sum(fn($c) => $c->penghargaan->skor ?? 0);
-
-        $skorAkhir = $totalPelanggaran - $totalPenghargaan;
+        $statusKategori = match (true) {
+            $skorAkhir >= 151 => 'berat',
+            $skorAkhir >= 56 => 'sedang',
+            $skorAkhir >= 10 => 'ringan',
+            default => 'baik',
+        };
 
         // Level penanganan
         $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
@@ -56,7 +55,7 @@ class DashboardController extends Controller
                     ])
             )
             ->sortByDesc('tanggal')
-            ->take(5)
+            ->take(6)
             ->values();
 
         return view('siswa.dashboard', compact(
@@ -65,6 +64,7 @@ class DashboardController extends Controller
             'totalPelanggaran',
             'totalPenghargaan',
             'skorAkhir',
+            'statusKategori',
             'penanganan',
             'notifikasi'
         ));

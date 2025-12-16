@@ -1,116 +1,126 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Dashboard Siswa
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 lg:px-5">
+    <div class="py-1">
+        <div class="max-w-7xl mx-auto px-3 lg:px-4">
 
-            {{-- ====== INFORMASI SISWA & LEVEL ====== --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6 mb-6">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                            {{ $user->nama }}
-                        </h3>
-                        <p class="text-gray-600 dark:text-gray-400">
-                            Rombel: {{ $siswa->rombel->nama_rombel ?? '-' }}
-                        </p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm text-gray-500 mb-1">Kategori</p>
-                        <span class="px-3 py-1 rounded-lg font-semibold
-                            @if($penanganan?->kategori === 'berat') bg-red-600 text-white
-                            @elseif($penanganan?->kategori === 'sedang') bg-yellow-500 text-white
-                            @else bg-green-500 text-white @endif">
-                            {{ $penanganan->kategori ?? 'Aman' }}
+            {{-- ====== HEADER SAPAAN ====== --}}
+            <div
+                class="rounded-2xl shadow-lg px-4 py-4 mb-3 flex items-center bg-gradient-to-r from-[#2A166F] to-[#0092DF] text-white">
+                <div class="flex flex-col">
+                    <p class="text-sm opacity-80 tracking-wide">Halo 👋</p>
+                    <h2 class="text-2xl font-bold leading-tight">
+                        {{ ucwords(strtolower($user->nama)) }}
+                    </h2>
+                    <p class="text-sm opacity-90 mt-1">
+                        Rombel {{ $siswa?->rombel?->nama_rombel ?? '-' }} · Tetap jaga sikap dan prestasi kamu hari ini
+                        💪
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+                {{-- STATUS SIKAP --}}
+                <div class="bg-white rounded-xl shadow px-3 py-3 hover:shadow-md transition">
+                    <p class="text-xs text-gray-500 mb-1">Status Sikap</p>
+
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full
+                            {{ $statusKategori === 'berat' ? 'bg-red-100 text-red-700' :
+    ($statusKategori === 'sedang' ? 'bg-yellow-100 text-yellow-700' :
+        ($statusKategori === 'ringan' ? 'bg-blue-100 text-blue-700' :
+            'bg-green-100 text-green-700')) }}">
+                            {{ strtoupper($statusKategori) }}
                         </span>
+
+                        <x-heroicon-o-shield-check class="w-4 h-4
+                            {{ $statusKategori === 'berat' ? 'text-red-600' :
+    ($statusKategori === 'sedang' ? 'text-yellow-600' :
+        ($statusKategori === 'ringan' ? 'text-blue-600' :
+            'text-green-600')) }}" />
+                    </div>
+                </div>
+
+                <div class="px-3 py-3 bg-[#DB261D] text-white rounded-xl shadow
+                            flex items-center gap-3 hover:scale-[1.04]
+                            hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <div class="p-2 bg-white/20 rounded-lg">
+                        <x-heroicon-o-exclamation-triangle class="w-6 h-6" />
+                    </div>
+                    <div>
+                        <p class="text-xs opacity-80">Pelanggaran</p>
+                        <p class="text-lg font-bold">{{ $totalPelanggaran }}</p>
+                    </div>
+                </div>
+
+                <div class="px-3 py-3 bg-[#FFF601] text-black rounded-xl shadow
+                            flex items-center gap-3 hover:scale-[1.04]
+                            hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <div class="p-2 bg-black/20 rounded-lg">
+                        <x-heroicon-o-star class="w-6 h-6" />
+                    </div>
+                    <div>
+                        <p class="text-xs opacity-80">Penghargaan</p>
+                        <p class="text-lg font-bold">{{ $totalPenghargaan }}</p>
+                    </div>
+                </div>
+
+                <div class="px-3 py-3 bg-[#0092DF] text-white rounded-xl shadow
+                            flex items-center gap-3 hover:scale-[1.04]
+                            hover:-translate-y-1 hover:shadow-lg transition-all">
+                    <div class="p-2 bg-white/20 rounded-lg">
+                        <x-heroicon-o-scale class="w-6 h-6" />
+                    </div>
+                    <div>
+                        <p class="text-xs opacity-80">Skor Saat Ini</p>
+                        <p class="text-lg font-bold">{{ $skorAkhir }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow mb-6">
-                {{-- ====== KARTU STATISTIK ====== --}}
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                    {{-- Total Pelanggaran --}}
-                    <div class="p-6 bg-red-500 dark:bg-red-700 text-white shadow rounded-xl hover:scale-105 transition">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm opacity-80">Total Pelanggaran</p>
-                                <p class="text-3xl font-bold">{{ $totalPelanggaran }}</p>
-                            </div>
-                            <x-heroicon-o-exclamation-triangle class="w-10 h-10 opacity-70" />
-                        </div>
-                    </div>
-
-                    {{-- Total Penghargaan --}}
-                    <div
-                        class="p-6 bg-yellow-500 dark:bg-yellow-600 text-white shadow rounded-xl hover:scale-105 transition">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm opacity-80">Total Penghargaan</p>
-                                <p class="text-3xl font-bold">{{ $totalPenghargaan }}</p>
-                            </div>
-                            <x-heroicon-o-star class="w-10 h-10 opacity-70" />
-                        </div>
-                    </div>
-
-                    {{-- Skor Akhir --}}
-                    <div
-                        class="p-6 bg-blue-500 dark:bg-blue-700 text-white shadow rounded-xl hover:scale-105 transition">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm opacity-80">Skor Akhir</p>
-                                <p class="text-3xl font-bold">{{ $skorAkhir }}</p>
-                            </div>
-                            <x-heroicon-o-scale class="w-10 h-10 opacity-70" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ====== NOTIFIKASI TERBARU ====== --}}
-            <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
-                <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
+            {{-- ====== RIWAYAT TERBARU ====== --}}
+            <div class="bg-white shadow rounded-2xl p-4 mb-3">
+                <h3 class="font-semibold text-gray-700 mb-3">
                     Riwayat Terbaru
                 </h3>
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">
-                        <thead class="bg-gray-200 dark:bg-gray-700">
-                            <tr>
-                                <th class="px-4 py-2 border">No</th>
-                                <th class="px-4 py-2 border">Tanggal</th>
-                                <th class="px-4 py-2 border">Tipe</th>
-                                <th class="px-4 py-2 border">Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($notifikasi as $index => $notif)
-                                <tr class="border-b border-gray-300 dark:border-gray-700">
-                                    <td class="px-4 py-2">{{ $index + 1 }}</td>
-                                    <td class="px-4 py-2">{{ $notif['tanggal'] }}</td>
-                                    <td
-                                        class="px-4 py-2 capitalize font-semibold
-                                                    {{ $notif['tipe'] === 'pelanggaran' ? 'text-red-600' : 'text-green-600' }}">
-                                        {{ $notif['tipe'] }}
-                                    </td>
-                                    <td class="px-4 py-2">{{ $notif['pesan'] }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-4 text-gray-500">
-                                        Belum ada notifikasi.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div class="space-y-3">
+                    @forelse ($notifikasi as $notif)
+                                    <div class="flex items-start gap-3 p-3 rounded-xl {{ $notif['tipe'] === 'pelanggaran'
+                        ? 'bg-red-50 border border-red-100'
+                        : 'bg-yellow-50 border border-yellow-100' }}">
+
+                                        <div class="mt-1">
+                                            @if($notif['tipe'] === 'pelanggaran')
+                                                <x-heroicon-o-exclamation-circle class="w-5 h-5 text-red-500" />
+                                            @else
+                                                <x-heroicon-o-check-circle class="w-5 h-5 text-yellow-500" />
+                                            @endif
+                                        </div>
+
+                                        <div class="flex-1">
+                                            <p class="text-sm font-semibold capitalize">
+                                                {{ $notif['tipe'] }}
+                                            </p>
+                                            <p class="text-xs text-gray-600">
+                                                {{ $notif['pesan'] }}
+                                            </p>
+                                            <p class="text-xs text-gray-400 mt-1">
+                                                {{ $notif['tanggal'] }}
+                                            </p>
+                                        </div>
+                                    </div>
+                    @empty
+                        <p class="text-sm text-gray-500 text-center py-4">
+                            Belum ada riwayat yang tercatat.
+                        </p>
+                    @endforelse
                 </div>
             </div>
-
         </div>
     </div>
 </x-app-layout>

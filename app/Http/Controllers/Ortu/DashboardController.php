@@ -16,13 +16,9 @@ class DashboardController extends Controller
         $ortu = Auth::user()->ortu;
         $siswa = Siswa::with(['user', 'rombel'])->find($ortu->siswa_id);
 
-        $totalPelanggaran = CatatanPelanggaran::where('id_siswa', $siswa->id)
-            ->with('pelanggaran')->get()->sum(fn($p) => $p->pelanggaran->skor ?? 0);
-
-        $totalPenghargaan = CatatanPenghargaan::where('id_siswa', $siswa->id)
-            ->with('penghargaan')->get()->sum(fn($h) => $h->penghargaan->skor ?? 0);
-
-        $skorAkhir = $totalPelanggaran - $totalPenghargaan;
+        $totalPelanggaran = CatatanPelanggaran::where('id_siswa', $siswa->id)->count();
+        $totalPenghargaan = CatatanPenghargaan::where('id_siswa', $siswa->id)->count();
+        $skorAkhir = $siswa->hitungSkorAkhir();
 
         $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
             ->where('skor_max', '>=', $skorAkhir)
@@ -34,6 +30,30 @@ class DashboardController extends Controller
         $penghargaanTerbaru = CatatanPenghargaan::where('id_siswa', $siswa->id)
             ->with('penghargaan')->latest()->take(3)->get();
 
+
+        $tanggalTerakhir = collect($pelanggaranTerbaru)
+            ->pluck('tanggal')
+            ->merge(collect($penghargaanTerbaru)->pluck('tanggal'))
+            ->sortDesc()
+            ->first();
+
+        $riwayat = collect($pelanggaranTerbaru)
+            ->map(fn($p) => [
+                'tanggal' => \Carbon\Carbon::parse($p->tanggal)->format('d/m/Y'),
+                'tipe' => 'pelanggaran',
+                'pesan' => $p->pelanggaran->bentuk ?? '-'
+            ])
+            ->merge(
+                collect($penghargaanTerbaru)->map(fn($h) => [
+                    'tanggal' => \Carbon\Carbon::parse($h->tanggal)->format('d/m/Y'),
+                    'tipe' => 'penghargaan',
+                    'pesan' => $h->penghargaan->bentuk ?? '-'
+                ])
+            )
+            ->sortByDesc('tanggal')
+            ->take(6)
+            ->values();
+
         return view('ortu.dashboard', compact(
             'siswa',
             'totalPelanggaran',
@@ -41,7 +61,9 @@ class DashboardController extends Controller
             'skorAkhir',
             'penanganan',
             'pelanggaranTerbaru',
-            'penghargaanTerbaru'
+            'penghargaanTerbaru',
+            'tanggalTerakhir',
+            'riwayat'
         ));
     }
 }

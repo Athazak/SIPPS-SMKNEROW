@@ -90,8 +90,7 @@ Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(f
 */
 Route::middleware(['auth', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Siswa\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('pelanggaran', [App\Http\Controllers\Siswa\PelanggaranController::class, 'index'])->name('pelanggaran.index');
-    Route::get('penghargaan', [App\Http\Controllers\Siswa\PenghargaanController::class, 'index'])->name('penghargaan.index');
+    Route::get('pelanggaran', [App\Http\Controllers\Siswa\RiwayatController::class, 'index'])->name('riwayat.index');
 });
 
 /*

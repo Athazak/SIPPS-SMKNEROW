@@ -142,28 +142,30 @@
 
                     <div class="overflow-x-auto mb-2">
                         <h4 class="font-semibold text-gray-700 dark:text-gray-200 mb-2">Riwayat Pelanggaran</h4>
-                        <template x-if="siswa.riwayat_pelanggaran?.length">
-                            <table class="w-full border text-sm">
-                                <thead class="bg-gray-100 dark:bg-gray-700">
-                                    <tr>
-                                        <th class="px-2 py-1">Tanggal</th>
-                                        <th class="px-2 py-1">Jenis</th>
-                                        <th class="px-2 py-1">Bentuk</th>
-                                        <th class="px-2 py-1">Skor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template x-for="(p, i) in siswa.riwayat_pelanggaran" :key="i">
-                                        <tr class="border-t">
-                                            <td class="px-2 py-1" x-text="p.tanggal"></td>
-                                            <td class="px-2 py-1" x-text="p.jenis"></td>
-                                            <td class="px-2 py-1" x-text="p.bentuk"></td>
-                                            <td class="px-2 py-1 text-center" x-text="p.skor"></td>
+                        <div class="max-h-[200px] overflow-y-auto border rounded">
+                            <template x-if="siswa.riwayat_pelanggaran?.length">
+                                <table class="w-full border text-sm">
+                                    <thead class="bg-gray-100 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-2 py-1">Tanggal</th>
+                                            <th class="px-2 py-1">Jenis</th>
+                                            <th class="px-2 py-1">Bentuk</th>
+                                            <th class="px-2 py-1">Skor</th>
                                         </tr>
-                                    </template>
-                                </tbody>
-                            </table>
-                        </template>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(p, i) in siswa.riwayat_pelanggaran" :key="i">
+                                            <tr class="border-t">
+                                                <td class="px-2 py-1" x-text="p.tanggal"></td>
+                                                <td class="px-2 py-1" x-text="p.jenis"></td>
+                                                <td class="px-2 py-1" x-text="p.bentuk"></td>
+                                                <td class="px-2 py-1 text-center" x-text="p.skor"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+                        </div>
                         <template x-if="!siswa.riwayat_pelanggaran?.length">
                             <p class="text-gray-500 text-sm">Tidak ada riwayat pelanggaran.</p>
                         </template>
@@ -171,35 +173,37 @@
 
                     <div class="overflow-x-auto">
                         <h4 class="font-semibold text-gray-700 dark:text-gray-200 mb-2">Riwayat Penghargaan</h4>
-                        <template x-if="siswa.riwayat_penghargaan?.length">
-                            <table class="w-full border text-sm">
-                                <thead class="bg-gray-100 dark:bg-gray-700">
-                                    <tr>
-                                        <th class="px-2 py-1">Tanggal</th>
-                                        <th class="px-2 py-1">Bentuk</th>
-                                        <th class="px-2 py-1">Kriteria</th>
-                                        <th class="px-2 py-1">Skor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template x-for="(p, i) in siswa.riwayat_penghargaan" :key="i">
-                                        <tr class="border-t">
-                                            <td class="px-2 py-1" x-text="p.tanggal"></td>
-                                            <td class="px-2 py-1" x-text="p.bentuk"></td>
-                                            <td class="px-2 py-1" x-text="p.kriteria"></td>
-                                            <td class="px-2 py-1 text-center" x-text="p.skor"></td>
+                        <div class="max-h-[200px] overflow-y-auto border rounded">
+                            <template x-if="siswa.riwayat_penghargaan?.length">
+                                <table class="w-full border text-sm">
+                                    <thead class="bg-gray-100 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-2 py-1">Tanggal</th>
+                                            <th class="px-2 py-1">Bentuk</th>
+                                            <th class="px-2 py-1">Kriteria</th>
+                                            <th class="px-2 py-1">Skor</th>
                                         </tr>
-                                    </template>
-                                </tbody>
-                            </table>
-                        </template>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(p, i) in siswa.riwayat_penghargaan" :key="i">
+                                            <tr class="border-t">
+                                                <td class="px-2 py-1" x-text="p.tanggal"></td>
+                                                <td class="px-2 py-1" x-text="p.bentuk"></td>
+                                                <td class="px-2 py-1" x-text="p.kriteria"></td>
+                                                <td class="px-2 py-1 text-center" x-text="p.skor"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+                        </div>
                         <template x-if="!siswa.riwayat_penghargaan?.length">
                             <p class="text-gray-500 text-sm">Tidak ada riwayat penghargaan.</p>
                         </template>
                     </div>
 
                 </div>
-                <div class="flex justify-end space-x-2 mt-6">
+                <div class="flex justify-end space-x-2 mt-2">
                     <button type="button" @click="openDetail = false"
                         class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
                         Tutup

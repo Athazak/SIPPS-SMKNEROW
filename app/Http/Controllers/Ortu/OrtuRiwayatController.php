@@ -12,48 +12,44 @@ class OrtuRiwayatController extends Controller
 {
     public function index()
     {
-        // Ambil data ortu yang sedang login
-        $ortu = Auth::user();
-
-        // Ambil data siswa yang terhubung dengan ortu
-        $siswa = $ortu->ortu?->siswa;
+        $user = Auth::user();
+        $ortu = $user->ortu ?? null;
+        $siswa = $ortu?->siswa;
 
         if (!$siswa) {
-            return view('ortu.riwayat')->with([
+            return view('ortu.riwayat', [
                 'siswa' => null,
-                'pelanggarans' => [],
-                'penghargaan' => [],
+                'pelanggarans' => collect(),
+                'penghargaan' => collect(),
                 'penanganan' => null,
             ]);
         }
 
-        // Ambil catatan pelanggaran dan penghargaan anak
+        // Riwayat pelanggaran (LIST)
         $pelanggarans = CatatanPelanggaran::with(['pelanggaran', 'penanganan'])
             ->where('id_siswa', $siswa->id)
-            ->orderBy('tanggal', 'desc')
-            ->get();
+            ->latest()
+            ->paginate(5);
 
-        $penghargaan = CatatanPenghargaan::with(['penghargaan'])
+        // Riwayat penghargaan (LIST)
+        $penghargaan = CatatanPenghargaan::with('penghargaan')
             ->where('id_siswa', $siswa->id)
-            ->orderBy('tanggal', 'desc')
-            ->get();
+            ->latest()
+            ->paginate(5);
 
-        // Hitung total skor siswa
-        $totalSkor = $siswa->catatanPelanggarans()
-            ->with('pelanggaran')
-            ->get()
-            ->sum(fn($item) => $item->pelanggaran->skor ?? 0);
+        // Hitung skor akhir (sesuai model siswa)
+        $totalSkor = $siswa->hitungSkorAkhir();
 
         // Ambil level penanganan sesuai skor total
         $penanganan = PenangananPelanggaran::where('skor_min', '<=', $totalSkor)
             ->where('skor_max', '>=', $totalSkor)
             ->first();
 
-        return view('ortu.riwayat', [
-            'siswa' => $siswa,
-            'pelanggarans' => $pelanggarans,
-            'penghargaan' => $penghargaan,
-            'penanganan' => $penanganan,
-        ]);
+        return view('ortu.riwayat', compact(
+            'siswa',
+            'pelanggarans',
+            'penghargaan',
+            'penanganan'
+        ));
     }
 }

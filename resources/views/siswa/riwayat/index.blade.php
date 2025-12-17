@@ -11,7 +11,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
                 {{-- STATUS SIKAP --}}
                 <div class="bg-white rounded-xl shadow px-3 py-3 hover:shadow-md transition">
-                    <p class="text-xs text-gray-500 mb-1">Status Sikap</p>
+                    <p class="text-xs text-gray-500 mb-1">Status Penanganan</p>
 
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-1 text-xs font-semibold rounded-full

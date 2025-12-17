@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'SIPPS - SMKNEROW') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,20 +16,32 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-gray-900 antialiased relative overflow-hidden">
-    <div
-        class="min-h-screen flex flex-col justify-center items-center pt-6 max-w-7xl mx-auto px-6 lg:px-8 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div>
-            <a href="/">
-                <x-logo-login class="fill-current text-gray-500" />
-            </a>
-        </div>
+<body class="font-sans antialiased">
 
-        <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+    {{-- BACKGROUND --}}
+    <div class="min-h-screen flex items-center justify-center
+                bg-gradient-to-br from-[#2A166F]/10 to-[#0092DF]/10 px-4">
+
+        {{-- CARD --}}
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
+
+            {{-- LOGO & TITLE --}}
+            <div class="text-center mb-6">
+                <div class="flex justify-center mb-3">
+                    <x-logo-login class="w-14 h-14" />
+                </div>
+            </div>
+
+            {{-- SLOT CONTENT --}}
             {{ $slot }}
+
+            {{-- FOOTER --}}
+            <p class="text-xs text-center text-gray-400 mt-6">
+                © {{ date('Y') }} SIPPS SMK Negeri Rowokangkung
+            </p>
         </div>
     </div>
+
 </body>
 
 </html>

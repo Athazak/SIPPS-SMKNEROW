@@ -1,8 +1,8 @@
-<table>
+<table border="1" style="border-collapse: collapse; width:100%;">
     <thead>
-        <tr>
+        <tr style="background:#E0E7FF; font-weight:bold; text-align:center;">
             @foreach(array_keys($data->first() ?? []) as $key)
-                <th>{{ ucfirst(str_replace('_', ' ', $key)) }}</th>
+                <th style="width:150px;">{{ ucfirst(str_replace('_', ' ', $key)) }}</th>
             @endforeach
         </tr>
     </thead>

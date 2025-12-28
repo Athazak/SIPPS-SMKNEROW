@@ -121,7 +121,10 @@ class LaporanController extends Controller
             $data = $query->get();
 
             if ($format === 'excel') {
-                return Excel::download(new GenericExport($data), 'Laporan_Pelanggaran.xlsx');
+                return Excel::download(
+                    new GenericExport($data, 'admin.laporan.export_pelanggaran'),
+                    'Laporan_Pelanggaran.xlsx'
+                );
             }
 
             $pdf = Pdf::loadView('admin.laporan.cetak_pelanggaran', compact('data', 'rombels'))
@@ -148,7 +151,10 @@ class LaporanController extends Controller
             $data = $query->get();
 
             if ($format === 'excel') {
-                return Excel::download(new GenericExport($data), 'Laporan_Penghargaan.xlsx');
+                return Excel::download(
+                    new GenericExport($data, 'admin.laporan.export_penghargaan'),
+                    'Laporan_Penghargaan.xlsx'
+                );
             }
 
             $pdf = Pdf::loadView('admin.laporan.cetak_penghargaan', compact('data', 'rombels'))
@@ -174,7 +180,7 @@ class LaporanController extends Controller
                 $totalPelanggaran = $siswa->catatanPelanggarans->sum(fn($c) => $c->pelanggaran->skor ?? 0);
                 $totalPenghargaan = $siswa->catatanPenghargaans->sum(fn($c) => $c->penghargaan->skor ?? 0);
                 $skorAkhir = $siswa->hitungSkorAkhir();
-                
+
                 $penanganan = PenangananPelanggaran::where('skor_min', '<=', $skorAkhir)
                     ->where('skor_max', '>=', $skorAkhir)
                     ->first();

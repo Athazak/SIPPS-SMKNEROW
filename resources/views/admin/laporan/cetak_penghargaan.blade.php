@@ -40,6 +40,7 @@
                 <th>Rombel</th>
                 <th>Guru Pencatat</th>
                 <th>Bentuk Penghargaan</th>
+                <th>Kriteria</th>
                 <th>Skor</th>
             </tr>
         </thead>
@@ -51,6 +52,7 @@
                     <td>{{ $item->siswa->user->nama }}</td>
                     <td>{{ $item->siswa->rombel->nama_rombel ?? '-' }}</td>
                     <td>{{ $item->guru->user->nama }}</td>
+                    <td>{{ $item->penghargaan->bentuk }}</td>
                     <td>{{ $item->penghargaan->kriteria }}</td>
                     <td>{{ $item->penghargaan->skor }}</td>
                 </tr>
